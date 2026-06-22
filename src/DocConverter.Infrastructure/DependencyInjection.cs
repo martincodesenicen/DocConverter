@@ -7,6 +7,7 @@ using DocConverter.Domain.Interfaces;
 using DocConverter.Application.Interfaces;
 using DocConverter.Infrastructure.Repositories;
 using DocConverter.Infrastructure.Storage;
+using DocConverter.Infrastructure.Services;
 
 namespace DocConverter.Infrastructure;
 
@@ -17,10 +18,16 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly("DocConverter.Infrastructure"))); // Las migraciones se van a guardar aca
+        
+        services.AddHttpContextAccessor();
+        
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IFileStorageService, LocalFileStorageService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<IStoredFileRepository, StoredFileRepository>();
+
         return services;
     }
 }
