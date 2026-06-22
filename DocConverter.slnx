@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DocConverter.API/DocConverter.API.csproj" />
+    <Project Path="src/DocConverter.Application/DocConverter.Application.csproj" />
+    <Project Path="src/DocConverter.Domain/DocConverter.Domain.csproj" />
+    <Project Path="src/DocConverter.Infrastructure/DocConverter.Infrastructure.csproj" />
+  </Folder>
+</Solution>

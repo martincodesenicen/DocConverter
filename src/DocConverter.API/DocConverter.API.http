@@ -1,0 +1,6 @@
+@DocConverter.API_HostAddress = http://localhost:5217
+
+GET {{DocConverter.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
