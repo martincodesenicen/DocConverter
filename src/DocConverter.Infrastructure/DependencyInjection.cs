@@ -29,8 +29,10 @@ public static class DependencyInjection
         services.AddScoped<IFileStorageService, LocalFileStorageService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IStoredFileRepository, StoredFileRepository>();
-        services.AddScoped<IContentConverter, MockContentConverter>();
+        services.AddScoped<IContentConverter, WordToPdfConverter>();
         services.AddHostedService<ConversionBackgroundWorker>();
+        services.AddScoped<IConversionJobRepository, ConversionJobRepository>();
+        services.AddScoped<IStoredFileRepository, StoredFileRepository>();
 
         return services;
     }
