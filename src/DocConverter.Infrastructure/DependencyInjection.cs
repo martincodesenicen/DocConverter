@@ -8,6 +8,8 @@ using DocConverter.Application.Interfaces;
 using DocConverter.Infrastructure.Repositories;
 using DocConverter.Infrastructure.Storage;
 using DocConverter.Infrastructure.Services;
+using DocConverter.Infrastructure.BackgroundJobs;
+using DocConverter.Infrastructure.Converters;
 
 namespace DocConverter.Infrastructure;
 
@@ -27,6 +29,8 @@ public static class DependencyInjection
         services.AddScoped<IFileStorageService, LocalFileStorageService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IStoredFileRepository, StoredFileRepository>();
+        services.AddScoped<IContentConverter, MockContentConverter>();
+        services.AddHostedService<ConversionBackgroundWorker>();
 
         return services;
     }
