@@ -6,6 +6,7 @@ using DocConverter.Infrastructure.Authentication;
 using DocConverter.Domain.Interfaces;
 using DocConverter.Application.Interfaces;
 using DocConverter.Infrastructure.Repositories;
+using DocConverter.Infrastructure.Storage;
 
 namespace DocConverter.Infrastructure;
 
@@ -19,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<IFileStorageService, LocalFileStorageService>();
         return services;
     }
 }
