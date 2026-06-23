@@ -46,26 +46,51 @@ public class ConversionBackgroundWorker : BackgroundService
                 var converter = scope.ServiceProvider.GetRequiredService<IContentConverter>();
                 var fileStorage = scope.ServiceProvider.GetRequiredService<IFileStorageService>();
 
-                // Busco el Job en la base de datos
+                // 3. Busco el Job en la base de datos
                 var job = await context.ConversionJobs
                     .Include(j => j.SourceFile)
+                    .Include(j => j.JobSourceFiles)
+                        .ThenInclude(js => js.StoredFile) // metadata de los múltiples archivos si existieran
                     .FirstOrDefaultAsync(j => j.Id == jobId, stoppingToken);
 
                 if (job == null) continue;
 
-                // Actualizo estado a Processing
+                // 4. Actualizar estado a Processing
                 job.Status = JobStatus.Processing;
                 await context.SaveChangesAsync(stoppingToken);
 
-                // Ejecuto la conversión real
-                string pdfStoragePath = await converter.ConvertToPdfAsync(job.SourceFile.StoragePath);
+                // 5. Determinar la estrategia de procesamiento (Word vs Merge)
+                string pdfStoragePath = string.Empty;
 
-                // Registro el nuevo archivo PDF en la metadata
+                if (job.SourceFileId.HasValue)
+                {
+                    // Estrategia A: Conversión unitaria (Word a PDF)
+                    pdfStoragePath = await converter.ConvertToPdfAsync(job.SourceFile.StoragePath);
+                }
+                else if (job.JobSourceFiles.Any())
+                {
+                    // Estrategia B: Fusión de múltiples PDFs (Merge)
+                    // rutas físicas ordenadas estrictamente por la secuencia
+                    var orderedPaths = job.JobSourceFiles
+                        .OrderBy(js => js.SequenceOrder)
+                        .Select(js => js.StoredFile.StoragePath)
+                        .ToList();
+
+                    pdfStoragePath = await converter.MergePdfsAsync(orderedPaths);
+                }
+                else
+                {
+                    throw new Exception("El trabajo no posee archivos de origen válidos definidos.");
+                }
+
+                // 6. Registrar el nuevo archivo PDF resultante en la metadata
                 var resultFileInfo = new FileInfo(pdfStoragePath);
                 var pdfFile = new Domain.Entities.StoredFile
                 {
                     Id = Guid.NewGuid(),
-                    OriginalName = Path.GetFileNameWithoutExtension(job.SourceFile.OriginalName) + ".pdf",
+                    OriginalName = job.SourceFileId.HasValue 
+                        ? Path.GetFileNameWithoutExtension(job.SourceFile.OriginalName) + ".pdf"
+                        : "merged_document.pdf", // Nombre por defecto para fusiones
                     StoragePath = pdfStoragePath,
                     SizeInBytes = resultFileInfo.Length,
                     ContentType = "application/pdf",
@@ -74,13 +99,13 @@ public class ConversionBackgroundWorker : BackgroundService
 
                 context.StoredFiles.Add(pdfFile);
 
-                // Finalizo el Job con éxito
+                // 7. Finalizar el Job con éxito
                 job.Status = JobStatus.Completed;
                 job.ResultFileId = pdfFile.Id;
                 job.CompletedAt = DateTime.UtcNow;
 
                 await context.SaveChangesAsync(stoppingToken);
-                _logger.LogInformation("Job {JobId} completado con éxito.", jobId);
+                _logger.LogInformation("Job {JobId} procesado y finalizado con éxito por el Worker.", jobId);
             }
             catch (Exception ex)
             {
