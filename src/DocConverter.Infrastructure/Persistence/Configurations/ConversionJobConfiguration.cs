@@ -24,6 +24,9 @@ public class ConversionJobConfiguration : IEntityTypeConfiguration<ConversionJob
         builder.Property(j => j.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()");
 
+        builder.Property(j => j.SourceFileId)
+            .IsRequired(false);
+
         // Relaciones
         builder.HasOne(j => j.User)
             .WithMany()

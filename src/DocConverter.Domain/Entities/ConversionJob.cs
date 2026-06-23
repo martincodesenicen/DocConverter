@@ -14,9 +14,10 @@ public class ConversionJob
     public Guid UserId { get; set; }
     public User User { get; set; } = null!;
 
-    public Guid SourceFileId { get; set; }
-    public StoredFile SourceFile { get; set; } = null!;
+    public Guid? SourceFileId { get; set; }
+    public StoredFile? SourceFile { get; set; } = null!;
 
     public Guid? ResultFileId { get; set; } // Nullable porque al inicio no hay PDF resultado
     public StoredFile? ResultFile { get; set; }
+    public ICollection<ConversionJobSourceFile> JobSourceFiles { get; set; } = new List<ConversionJobSourceFile>();
 }
