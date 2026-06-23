@@ -49,4 +49,12 @@ public class ConversionJobRepository : IConversionJobRepository
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task AddSplitJobAsync(ConversionJob job, StoredFile file)
+    {
+        _context.StoredFiles.Add(file);
+        _context.ConversionJobs.Add(job);
+
+        await _context.SaveChangesAsync();
+    }
 }

@@ -2,6 +2,7 @@ using DocConverter.Application.Interfaces;
 using DocConverter.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using DocConverter.Application.DTOs;
 
 namespace DocConverter.API.Controllers;
 
@@ -86,6 +87,27 @@ public class ConversionsController : ControllerBase
         var response = await _conversionService.StartPdfMergeAsync(filesToProcess);
 
         // Retorno el 202 Accepted clásico indicando que el Job está encolado
+        return AcceptedAtAction(nameof(GetJobStatus), new { jobId = response.JobId }, response);
+    }
+
+    [HttpPost("pdf-split")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> SplitPdf(IFormFile file, [FromForm] SplitRequest request)
+    {
+        if (file == null || file.Length == 0)
+        {
+            throw new BadRequestException("No file was uploaded.");
+        }
+
+        var extension = Path.GetExtension(file.FileName).ToLower();
+        if (extension != ".pdf")
+        {
+            throw new BadRequestException("Only PDF files are allowed for splitting.");
+        }
+
+        using var stream = file.OpenReadStream();
+        var response = await _conversionService.StartPdfSplitAsync(stream, file.FileName, file.Length, request);
+
         return AcceptedAtAction(nameof(GetJobStatus), new { jobId = response.JobId }, response);
     }
 }

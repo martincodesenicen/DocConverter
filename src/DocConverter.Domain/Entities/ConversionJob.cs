@@ -9,6 +9,8 @@ public class ConversionJob
     public string? ErrorMessage { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
+    public int? StartPage { get; set; }
+    public int? EndPage { get; set; }
 
     // Relaciones
     public Guid UserId { get; set; }

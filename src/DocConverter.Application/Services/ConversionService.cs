@@ -4,6 +4,7 @@ using DocConverter.Domain.Entities;
 using DocConverter.Domain.Enums;
 using System.IO;
 using DocConverter.Domain.Exceptions;
+using FluentValidation;
 
 namespace DocConverter.Application.Services;
 
@@ -14,19 +15,22 @@ public class ConversionService : IConversionService
     private readonly IFileStorageService _storage;
     private readonly ICurrentUserService _currentUser;
     private readonly IConversionQueue _queue;
+    private readonly IValidator<SplitRequest> _splitValidator;
 
     public ConversionService(
         IStoredFileRepository files,
         IConversionJobRepository jobs,
         IFileStorageService storage,
         ICurrentUserService currentUser,
-        IConversionQueue queue)
+        IConversionQueue queue,
+        IValidator<SplitRequest> splitValidator)
     {
         _files = files;
         _jobs = jobs;
         _storage = storage;
         _currentUser = currentUser;
         _queue = queue;
+        _splitValidator = splitValidator;
     }
 
     public async Task<JobResponse> StartWordToPdfConversionAsync(
@@ -149,6 +153,48 @@ public class ConversionService : IConversionService
         }
 
         await _jobs.AddMergeJobAsync(job, fileEntities);
+
+        await _queue.EnqueueAsync(job.Id);
+
+        return new JobResponse(job.Id, job.Status.ToString(), job.CreatedAt);
+    }
+
+    public async Task<JobResponse> StartPdfSplitAsync(
+        Stream fileStream,
+        string fileName,
+        long sizeInBytes,
+        SplitRequest request)
+    {
+        var userId = _currentUser.UserId
+            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+
+        var validationResult = await _splitValidator.ValidateAsync(request);
+        if (!validationResult.IsValid)
+            throw new BadRequestException(validationResult.Errors.First().ErrorMessage);
+
+        var storagePath = await _storage.SaveFileAsync(fileStream, fileName);
+
+        var sourceFile = new StoredFile
+        {
+            Id = Guid.NewGuid(),
+            OriginalName = fileName,
+            StoragePath = storagePath,
+            SizeInBytes = sizeInBytes,
+            ContentType = "application/pdf",
+            UserId = userId
+        };
+
+        var job = new ConversionJob
+        {
+            Id = Guid.NewGuid(),
+            Status = JobStatus.Pending,
+            UserId = userId,
+            SourceFileId = sourceFile.Id,
+            StartPage = request.StartPage,
+            EndPage = request.EndPage
+        };
+
+        await _jobs.AddSplitJobAsync(job, sourceFile);
 
         await _queue.EnqueueAsync(job.Id);
 
