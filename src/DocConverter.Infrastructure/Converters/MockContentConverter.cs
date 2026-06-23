@@ -23,4 +23,9 @@ public class MockContentConverter : IContentConverter
     {
         throw new NotImplementedException();
     }
+
+    public Task<string> SplitPdfAsync(string sourcePath, int startPage, int endPage)
+    {
+        throw new NotImplementedException();
+    }
 }

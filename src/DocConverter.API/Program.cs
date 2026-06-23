@@ -73,6 +73,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()   // En producción podrías cambiarlo por .WithOrigins("https://mi-frontend.com")
+              .AllowAnyMethod()   // Permite GET, POST, PUT, DELETE, etc.
+              .AllowAnyHeader();  // Permite cabeceras personalizadas como Authorization
+    });
+});
+
 SautinSoftLicense.Init();
 
 var app = builder.Build();
