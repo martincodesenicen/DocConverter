@@ -111,4 +111,47 @@ public class ConversionService : IConversionService
 
         return new FileDownloadResponse(stream, job.ResultFile.ContentType, job.ResultFile.OriginalName);
     }
+
+    public async Task<JobResponse> StartPdfMergeAsync(List<(Stream FileStream, string FileName)> files)
+    {
+        var userId = _currentUser.UserId
+            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+
+        if (files == null || files.Count < 2)
+            throw new BadRequestException("Se necesitan al menos 2 archivos PDF.");
+
+        var job = new ConversionJob
+        {
+            Id = Guid.NewGuid(),
+            Status = JobStatus.Pending,
+            UserId = userId
+        };
+
+        var fileEntities = new List<(StoredFile file, int order)>();
+
+        for (int i = 0; i < files.Count; i++)
+        {
+            var fileData = files[i];
+
+            var storagePath = await _storage.SaveFileAsync(fileData.FileStream, fileData.FileName);
+
+            var storedFile = new StoredFile
+            {
+                Id = Guid.NewGuid(),
+                OriginalName = fileData.FileName,
+                StoragePath = storagePath,
+                SizeInBytes = fileData.FileStream.Length,
+                ContentType = "application/pdf",
+                UserId = userId
+            };
+
+            fileEntities.Add((storedFile, i));
+        }
+
+        await _jobs.AddMergeJobAsync(job, fileEntities);
+
+        await _queue.EnqueueAsync(job.Id);
+
+        return new JobResponse(job.Id, job.Status.ToString(), job.CreatedAt);
+    }
 }

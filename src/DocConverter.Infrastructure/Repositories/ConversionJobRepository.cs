@@ -29,4 +29,24 @@ public class ConversionJobRepository : IConversionJobRepository
             .Include(j => j.ResultFile)
             .FirstOrDefaultAsync(j => j.Id == jobId && j.UserId == userId);
     }
+    public async Task AddMergeJobAsync(ConversionJob job, List<(StoredFile file, int order)> files)
+    {
+        _context.ConversionJobs.Add(job);
+
+        foreach (var (file, order) in files)
+        {
+            _context.StoredFiles.Add(file);
+
+            var relation = new ConversionJobSourceFile
+            {
+                ConversionJobId = job.Id,
+                StoredFileId = file.Id,
+                SequenceOrder = order
+            };
+
+            _context.ConversionJobSourceFiles.Add(relation);
+        }
+
+        await _context.SaveChangesAsync();
+    }
 }

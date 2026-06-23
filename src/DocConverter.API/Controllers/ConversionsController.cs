@@ -58,4 +58,34 @@ public class ConversionsController : ControllerBase
         // Si el servicio no devolvió nulo, el stream está listo para ser enviado
         return File(response!.FileStream, response.ContentType, response.FileName);
     }
+
+    [HttpPost("pdf-merge")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> MergePdf(List<IFormFile> files)
+    {
+        if (files == null || files.Count < 2)
+        {
+            throw new BadRequestException("You must upload at least 2 PDF files to merge.");
+        }
+
+        var filesToProcess = new List<(Stream FileStream, string FileName)>();
+
+        foreach (var file in files)
+        {
+            if (file.Length == 0) continue;
+
+            var extension = Path.GetExtension(file.FileName).ToLower();
+            if (extension != ".pdf")
+            {
+                throw new BadRequestException($"File '{file.FileName}' is not a valid PDF.");
+            }
+
+            filesToProcess.Add((file.OpenReadStream(), file.FileName));
+        }
+
+        var response = await _conversionService.StartPdfMergeAsync(filesToProcess);
+
+        // Retorno el 202 Accepted clásico indicando que el Job está encolado
+        return AcceptedAtAction(nameof(GetJobStatus), new { jobId = response.JobId }, response);
+    }
 }

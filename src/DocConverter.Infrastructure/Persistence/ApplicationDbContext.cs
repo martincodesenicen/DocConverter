@@ -13,6 +13,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<StoredFile> StoredFiles => Set<StoredFile>();
     public DbSet<ConversionJob> ConversionJobs => Set<ConversionJob>();
+    public DbSet<ConversionJobSourceFile> ConversionJobSourceFiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
