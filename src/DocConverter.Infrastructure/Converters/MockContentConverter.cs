@@ -18,4 +18,9 @@ public class MockContentConverter : IContentConverter
 
         return fullPath;
     }
+
+    public Task<string> MergePdfsAsync(List<string> sourcePaths)
+    {
+        throw new NotImplementedException();
+    }
 }
