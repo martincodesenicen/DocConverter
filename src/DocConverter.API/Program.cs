@@ -77,7 +77,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", policy =>
     {
-        policy.AllowAnyOrigin()   // En producción podrías cambiarlo por .WithOrigins("https://mi-frontend.com")
+        policy.AllowAnyOrigin()
               .AllowAnyMethod()   // Permite GET, POST, PUT, DELETE, etc.
               .AllowAnyHeader();  // Permite cabeceras personalizadas como Authorization
     });
@@ -97,6 +97,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 // Primero el sistema detecta quién es el usuario (Authenticate) y luego si tiene permiso (Authorize)
 app.UseAuthentication(); 
