@@ -66,4 +66,44 @@ public class PdfProcessingEngine : IContentConverter
             return targetPath;
         });
     }
+    public Task<string> SplitPdfAsync(string sourcePath, int startPage, int endPage)
+    {
+        if (!File.Exists(sourcePath))
+        {
+            throw new FileNotFoundException("El archivo PDF original no se encuentra en el servidor.", sourcePath);
+        }
+
+        var directory = Path.GetDirectoryName(sourcePath) ?? AppContext.BaseDirectory;
+        var targetPath = Path.Combine(directory, $"{Guid.NewGuid()}.pdf");
+
+        return Task.Run(() =>
+        {
+            // 1. Abro el documento original en modo Importación
+            using var inputDocument = PdfReader.Open(sourcePath, PdfDocumentOpenMode.Import);
+            
+            int totalPages = inputDocument.PageCount;
+            if (startPage > totalPages)
+            {
+                throw new ArgumentException($"La página de inicio ({startPage}) excede las páginas totales del documento ({totalPages}).");
+            }
+            
+            // Ajusto la página final en caso de que el usuario haya enviado un número mayor al total
+            int realEndPage = Math.Min(endPage, totalPages);
+
+            // 2. Creo el documento PDF de salida vacío
+            using var outputDocument = new PdfDocument();
+
+            // 3. Extraigo el rango solicitado
+            // NOTA: En PdfSharp las páginas son base 0 indexadas, por eso tengo que restar 1
+            for (int i = startPage - 1; i < realEndPage; i++)
+            {
+                PdfPage page = inputDocument.Pages[i];
+                outputDocument.AddPage(page);
+            }
+
+            // 4. Guardo el archivo binario recortado en disco
+            outputDocument.Save(targetPath);
+            return targetPath;
+        });
+    }
 }

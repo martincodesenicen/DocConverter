@@ -62,7 +62,18 @@ public class ConversionBackgroundWorker : BackgroundService
                 // 5. Determinar la estrategia de procesamiento (Word vs Merge)
                 string pdfStoragePath = string.Empty;
 
-                if (job.SourceFileId.HasValue)
+                if (job.SourceFileId.HasValue && job.StartPage.HasValue && job.EndPage.HasValue)
+                {
+                    // Estrategia C: NUEVA - División / Recorte de PDF (Split)
+                    _logger.LogInformation("Worker detectó un proceso de Split para el Job {JobId}. Rango: {Start}-{End}", jobId, job.StartPage, job.EndPage);
+                    
+                    pdfStoragePath = await converter.SplitPdfAsync(
+                        job.SourceFile.StoragePath, 
+                        job.StartPage.Value, 
+                        job.EndPage.Value
+                    );
+                }
+                else if (job.SourceFileId.HasValue)
                 {
                     // Estrategia A: Conversión unitaria (Word a PDF)
                     pdfStoragePath = await converter.ConvertToPdfAsync(job.SourceFile.StoragePath);
@@ -70,7 +81,6 @@ public class ConversionBackgroundWorker : BackgroundService
                 else if (job.JobSourceFiles.Any())
                 {
                     // Estrategia B: Fusión de múltiples PDFs (Merge)
-                    // rutas físicas ordenadas estrictamente por la secuencia
                     var orderedPaths = job.JobSourceFiles
                         .OrderBy(js => js.SequenceOrder)
                         .Select(js => js.StoredFile.StoragePath)
@@ -88,9 +98,9 @@ public class ConversionBackgroundWorker : BackgroundService
                 var pdfFile = new Domain.Entities.StoredFile
                 {
                     Id = Guid.NewGuid(),
-                    OriginalName = job.SourceFileId.HasValue 
-                        ? Path.GetFileNameWithoutExtension(job.SourceFile.OriginalName) + ".pdf"
-                        : "merged_document.pdf", // Nombre por defecto para fusiones
+                    OriginalName = job.StartPage.HasValue 
+                        ? $"{Path.GetFileNameWithoutExtension(job.SourceFile.OriginalName)}_pag_{job.StartPage}_{job.EndPage}.pdf"
+                        : "processed_document.pdf",
                     StoragePath = pdfStoragePath,
                     SizeInBytes = resultFileInfo.Length,
                     ContentType = "application/pdf",
