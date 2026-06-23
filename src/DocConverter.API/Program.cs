@@ -1,8 +1,9 @@
 using System.Text;
 using DocConverter.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer; // Nuevo
-using Microsoft.IdentityModel.Tokens; // Nuevo
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using DocConverter.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,8 @@ builder.Services.AddAuthentication(options =>
 SautinSoftLicense.Init();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // PIPELINE DE PETICIONES
 if (app.Environment.IsDevelopment())

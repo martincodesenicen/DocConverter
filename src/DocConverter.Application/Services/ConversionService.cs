@@ -3,6 +3,7 @@ using DocConverter.Application.Interfaces;
 using DocConverter.Domain.Entities;
 using DocConverter.Domain.Enums;
 using System.IO;
+using DocConverter.Domain.Exceptions;
 
 namespace DocConverter.Application.Services;
 
@@ -88,11 +89,18 @@ public class ConversionService : IConversionService
         var job = await _jobs.GetJobWithResultFileAsync(jobId, userId);
 
         // Validaciones de negocio orientadas a producción
-        if (job == null || job.Status != JobStatus.Completed || job.ResultFile == null)
+        if (job == null)
         {
-            return null;
+            throw new NotFoundException("Conversion job not found.");
         }
-
+        if (job.Status == JobStatus.Failed)
+        {
+            throw new BadRequestException($"El trabajo de conversión falló: {job.ErrorMessage}");
+        }
+        if (job.Status != JobStatus.Completed || job.ResultFile == null)
+        {
+            throw new BadRequestException("El archivo aún no está listo para descargar.");
+        }
         if (!File.Exists(job.ResultFile.StoragePath))
         {
             throw new FileNotFoundException("El archivo físico no se encuentra en el servidor.");

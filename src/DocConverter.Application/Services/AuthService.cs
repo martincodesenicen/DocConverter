@@ -2,6 +2,7 @@ using DocConverter.Application.DTOs;
 using DocConverter.Application.Interfaces;
 using DocConverter.Domain.Entities;
 using DocConverter.Domain.Interfaces;
+using DocConverter.Domain.Exceptions;
 
 namespace DocConverter.Application.Services;
 
@@ -27,7 +28,7 @@ private readonly IJwtTokenGenerator _tokenGenerator;
         var emailExists = await _users.ExistsByEmailAsync(request.Email);
         if (emailExists)
         {
-            throw new Exception("The email is already registered."); 
+            throw new BadRequestException("The email is already registered.");
             // Nota: Luego cambiaremos esto por una excepción personalizada controlada por un Middleware global
         }
 
@@ -50,21 +51,14 @@ private readonly IJwtTokenGenerator _tokenGenerator;
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
     {
-        // 1. Buscar al usuario por Email
+        // Buscar al usuario por Email
         var user = await _users.GetByEmailAsync(request.Email);
-        if (user == null)
+        if (user == null || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
         {
-            throw new Exception("Invalid email or password.");
+            throw new UnauthorizedException("Invalid email or password.");
         }
 
-        // 2. Verificar la contraseña con el Hash guardado
-        var isPasswordValid = _passwordHasher.VerifyPassword(request.Password, user.PasswordHash);
-        if (!isPasswordValid)
-        {
-            throw new Exception("Invalid email or password.");
-        }
-
-        // 3. Generar Token y responder
+        // Generar Token y responder
         var token = _tokenGenerator.GenerateToken(user);
         return new AuthResponse(user.Id, user.Email, token);
     }
