@@ -22,4 +22,11 @@ public class ConversionJobRepository : IConversionJobRepository
         return await _context.ConversionJobs
             .FirstOrDefaultAsync(x => x.Id == jobId && x.UserId == userId);
     }
+
+    public async Task<ConversionJob?> GetJobWithResultFileAsync(Guid jobId, Guid userId)
+    {
+        return await _context.ConversionJobs
+            .Include(j => j.ResultFile)
+            .FirstOrDefaultAsync(j => j.Id == jobId && j.UserId == userId);
+    }
 }

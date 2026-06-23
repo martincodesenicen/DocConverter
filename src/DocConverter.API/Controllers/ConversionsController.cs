@@ -64,4 +64,27 @@ public class ConversionsController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpGet("download/{jobId}")]
+    public async Task<IActionResult> DownloadResult(Guid jobId)
+    {
+        try
+        {
+            var response = await _conversionService.DownloadResultFileAsync(jobId);
+            if (response == null)
+            {
+                return BadRequest(new { message = "El archivo no está listo para descargar o el trabajo falló." });
+            }
+
+            return File(response.FileStream, response.ContentType, response.FileName);
+        }
+        catch (FileNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 }

@@ -72,6 +72,8 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+SautinSoftLicense.Init();
+
 var app = builder.Build();
 
 // PIPELINE DE PETICIONES

@@ -2,6 +2,7 @@ using DocConverter.Application.DTOs;
 using DocConverter.Application.Interfaces;
 using DocConverter.Domain.Entities;
 using DocConverter.Domain.Enums;
+using System.IO;
 
 namespace DocConverter.Application.Services;
 
@@ -76,5 +77,30 @@ public class ConversionService : IConversionService
         if (job == null) return null;
 
         return new JobResponse(job.Id, job.Status.ToString(), job.CreatedAt);
+    }
+
+    public async Task<FileDownloadResponse?> DownloadResultFileAsync(Guid jobId)
+    {
+        var userId = _currentUser.UserId 
+            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+
+        // Buscamos el Job incluyendo la metadata del archivo resultado
+        var job = await _jobs.GetJobWithResultFileAsync(jobId, userId);
+
+        // Validaciones de negocio orientadas a producción
+        if (job == null || job.Status != JobStatus.Completed || job.ResultFile == null)
+        {
+            return null;
+        }
+
+        if (!File.Exists(job.ResultFile.StoragePath))
+        {
+            throw new FileNotFoundException("El archivo físico no se encuentra en el servidor.");
+        }
+
+        // Abrimos el archivo en modo lectura compartida (eficiente para múltiples descargas)
+        var stream = new FileStream(job.ResultFile.StoragePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+        return new FileDownloadResponse(stream, job.ResultFile.ContentType, job.ResultFile.OriginalName);
     }
 }
