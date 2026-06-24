@@ -1,0 +1,45 @@
+@if(loading) {
+
+  <div class="spinner">
+
+    <mat-spinner diameter="40" />
+
+  </div>
+
+}
+
+@if(status) {
+
+  <div class="status-container">
+
+    <p>
+      Status:
+      <strong>{{ status }}</strong>
+    </p>
+
+  </div>
+
+}
+
+@if(status === 'Completed') {
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="download()">
+
+    Download Result
+
+  </button>
+
+}
+
+@if(status === 'Failed') {
+
+  <div class="error">
+
+    Conversion failed
+
+  </div>
+
+}

@@ -28,6 +28,9 @@ PollingService
 import { FileDropzoneComponent }
 from '../../../shared/components/file-dropzone/file-dropzone.component';
 
+import { JobStatusComponent }
+from '../../../shared/components/job-status/job-status.component';
+
 @Component({
 selector: 'app-word-to-pdf-page',
 standalone: true,
@@ -36,7 +39,8 @@ CommonModule,
 MatButtonModule,
 MatCardModule,
 MatProgressSpinnerModule,
-FileDropzoneComponent
+FileDropzoneComponent,
+JobStatusComponent
 ],
 templateUrl: './word-to-pdf-page.html',
 styleUrl: './word-to-pdf-page.scss'

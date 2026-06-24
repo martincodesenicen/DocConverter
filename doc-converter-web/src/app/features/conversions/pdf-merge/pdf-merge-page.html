@@ -35,36 +35,11 @@
 
     </button>
 
-    @if(loading()) {
-
-      <div class="spinner">
-
-        <mat-spinner />
-
-      </div>
-
-    }
-
-    @if(jobStatus()) {
-
-      <p>
-        Status:
-        {{ jobStatus() }}
-      </p>
-
-    }
-
-    @if(jobStatus() === 'Completed') {
-
-      <button
-        mat-raised-button
-        (click)="download()">
-
-        Download Result
-
-      </button>
-
-    }
+    <app-job-status
+      [loading]="loading()"
+      [status]="jobStatus()"
+      (downloadClicked)="download()">
+    </app-job-status>
 
   </mat-card>
 

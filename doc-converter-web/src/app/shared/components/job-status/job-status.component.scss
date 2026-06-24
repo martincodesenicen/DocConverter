@@ -1,0 +1,21 @@
+.spinner {
+
+  display: flex;
+  justify-content: center;
+}
+
+.status-container {
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  background: #f4f6fa;
+}
+
+.error {
+
+  color: red;
+
+  font-weight: 600;
+}

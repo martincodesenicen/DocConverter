@@ -19,6 +19,8 @@ import { MatInputModule } from '@angular/material/input';
 
 import { ConversionService } from '../../../core/services/conversion.service';
 import { PollingService } from '../../../core/services/polling.service';
+import { JobStatusComponent }
+from '../../../shared/components/job-status/job-status.component';
 
 @Component({
   standalone: true,
@@ -30,7 +32,8 @@ import { PollingService } from '../../../core/services/polling.service';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    JobStatusComponent
   ],
   templateUrl: './pdf-split-page.html',
   styleUrl: './pdf-split-page.scss'

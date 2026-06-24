@@ -11,6 +11,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ConversionService } from '../../../core/services/conversion.service';
 import { PollingService } from '../../../core/services/polling.service';
+import { JobStatusComponent }
+from '../../../shared/components/job-status/job-status.component';
+
 
 @Component({
   standalone: true,
@@ -18,7 +21,8 @@ import { PollingService } from '../../../core/services/polling.service';
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    JobStatusComponent
   ],
   templateUrl: './pdf-merge-page.html',
   styleUrl: './pdf-merge-page.scss'
