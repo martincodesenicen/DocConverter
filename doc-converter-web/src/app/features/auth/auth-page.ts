@@ -23,6 +23,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { NotificationService } from '../../core/services/notification.service';
+
 @Component({
 selector: 'app-auth-page',
 standalone: true,
@@ -44,6 +46,8 @@ export class AuthPage {
 private fb = inject(FormBuilder);
 private authService = inject(AuthService);
 private router = inject(Router);
+private notification =
+  inject(NotificationService);
 
 loading = signal(false);
 errorMessage = signal('');
@@ -73,7 +77,9 @@ this.authService.login(request)
     next: () => {
 
       this.loading.set(false);
-
+      this.notification.success(
+        'Login successful'
+      );
       this.router.navigate(['/dashboard']);
     },
 
@@ -81,9 +87,9 @@ this.authService.login(request)
 
       this.loading.set(false);
 
-      this.errorMessage.set(
+      this.notification.error(
         error?.error?.message ??
-        'Login incorrecto'
+        'Login failed'
       );
     }
   });
@@ -107,16 +113,18 @@ this.authService.register(request)
 
       this.loading.set(false);
 
-      alert('Usuario registrado correctamente');
+      this.notification.success(
+        'Registration successful'
+      );
     },
 
     error: (error) => {
 
       this.loading.set(false);
 
-      this.errorMessage.set(
+      this.notification.error(
         error?.error?.message ??
-        'Error al registrarse'
+        'Registration failed'
       );
     }
   });
