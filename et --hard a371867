@@ -1,0 +1,28 @@
+[33me46dcd3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m feat(web): configure routing paths
+[33m34d1edc[m feat(web): design dashboard views with drag-drop and real-time polling updates
+[33mb53f205[m feat(web): implement auth and conversion services with rxJS polling workflow
+[33mc649b21[m feat(web): add auth guard and functional jwt http interceptor
+[33m0ee63f4[m feat(web): initialize angular spa with tailwindcss
+[33ma371867[m refactor(api): remove unused FilesController to keep MVP clean
+[33m5922a47[m[33m ([m[1;31morigin/main[m[33m)[m docs: create README
+[33ma7eb854[m feat(api): enable global cors policy for frontend integration
+[33m6c963d0[m feat(infrastructure): implement physical pdf split extraction using pdfsharp in background worker
+[33m7a0a492[m feat(api): implement pdf split orchestration with fluentvalidation and schema updates
+[33m2978327[m feat(application): implement dto input validation using fluentvalidation
+[33m667e4a3[m feat(infrastructure): implement physical pdf merge using pdfsharp inside background worker
+[33m502f8b9[m feat(application): implement pdf merge orchestration and api endpoint
+[33m4f3eb92[m feat(database): add conversion job source files relation for multiple file operations
+[33md1bc14c[m refactor(api): implement global exception middleware and clean controllers
+[33mc881cd9[m feat(api): add endpoint to download converted pdf result file
+[33m1f73eaa[m feat(infrastructure): replace mock converter with real word-to-pdf document processing engine
+[33m0584a2d[m feat(api): implement asynchronous word-to-pdf conversion endpoint with status tracking
+[33mc3ece2a[m feat(conversion): implement background worker and in-memory channel queue
+[33m32acf9c[m feat(api): implement secure file upload endpoint linked to authenticated user
+[33m5d17fdc[m feat(infrastructure): implement secure local file storage service
+[33m501e919[m feat(api): implement auth controller and configure jwt authentication middleware
+[33md5ac0a8[m feat(application): implement authentication service with register and login use cases
+[33m537d299[m feat(infrastructure): implement secure password hashing and jwt token generator
+[33m64e2a5b[m feat(api): configure connection string and generate initial ef core migration
+[33mdac4246[m feat(infrastructure): configure EF Core with Fluent API and SQL Server
+[33m739385b[m feat(domain): model core entities for user, file, and conversion job
+[33m1d400d2[m chore: initialize solution with clean architecture structure

@@ -10,15 +10,15 @@ export const routes: Routes = [
   {
     path: 'auth',
     loadComponent: () =>
-      import('./features/auth/auth-page.component')
-        .then(c => c.AuthPageComponent)
+      import('./features/auth/auth-page')
+        .then(m => m.AuthPage)
   },
 
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./features/dashboard/dashboard-page.component')
-        .then(c => c.DashboardPageComponent)
+      import('./features/dashboard/dashboard-page')
+        .then(m => m.DashboardPage)
   },
 
   {
