@@ -1,0 +1,85 @@
+<div class="container">
+
+  <mat-card>
+
+    <h1>Split PDF</h1>
+
+    <input
+      type="file"
+      accept=".pdf"
+      (change)="onFileSelected($event)">
+
+    <form
+      [formGroup]="form">
+
+      <mat-form-field appearance="outline">
+
+        <mat-label>
+          Start Page
+        </mat-label>
+
+        <input
+          matInput
+          type="number"
+          formControlName="startPage">
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+
+        <mat-label>
+          End Page
+        </mat-label>
+
+        <input
+          matInput
+          type="number"
+          formControlName="endPage">
+
+      </mat-form-field>
+
+    </form>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="split()">
+
+      Split PDF
+
+    </button>
+
+    @if(loading()) {
+
+      <div class="spinner">
+
+        <mat-spinner />
+
+      </div>
+
+    }
+
+    @if(jobStatus()) {
+
+      <p>
+        Status:
+        {{ jobStatus() }}
+      </p>
+
+    }
+
+    @if(jobStatus() === 'Completed') {
+
+      <button
+        mat-raised-button
+        (click)="download()">
+
+        Download Result
+
+      </button>
+
+    }
+
+  </mat-card>
+
+</div>

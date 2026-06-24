@@ -65,6 +65,35 @@ pdfMerge(
   );
 }
 
+pdfSplit(
+  file: File,
+  startPage: number,
+  endPage: number
+): Observable<JobResponse> {
+
+  const formData = new FormData();
+
+  formData.append(
+    'file',
+    file
+  );
+
+  formData.append(
+    'startPage',
+    startPage.toString()
+  );
+
+  formData.append(
+    'endPage',
+    endPage.toString()
+  );
+
+  return this.http.post<JobResponse>(
+    `${this.apiUrl}/pdf-split`,
+    formData
+  );
+}
+
 getStatus(
 jobId: string
 ): Observable<JobResponse> {
