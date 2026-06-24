@@ -1,0 +1,56 @@
+<div class="container">
+
+  <mat-card>
+
+```
+<h1>Word to PDF</h1>
+
+<input
+  type="file"
+  accept=".doc,.docx"
+  (change)="onFileSelected($event)">
+
+<button
+  mat-raised-button
+  color="primary"
+  (click)="convert()">
+
+  Convert
+</button>
+
+@if(loading()) {
+
+  <div class="spinner">
+
+    <mat-spinner></mat-spinner>
+
+  </div>
+
+}
+
+@if(jobStatus()) {
+
+  <p>
+    Status:
+    {{ jobStatus() }}
+  </p>
+
+}
+
+@if(jobStatus() === 'Completed') {
+
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="download()">
+
+    Download PDF
+
+  </button>
+
+}
+```
+
+  </mat-card>
+
+</div>
