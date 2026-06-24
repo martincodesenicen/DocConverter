@@ -1,7 +1,136 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  signal
+} from '@angular/core';
+
+import { CommonModule } from '@angular/common';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { ConversionService } from '../../../core/services/conversion.service';
+import { PollingService } from '../../../core/services/polling.service';
 
 @Component({
-standalone: true,
-template: `<h1>PDF Merge</h1>`
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
+  ],
+  templateUrl: './pdf-merge-page.html',
+  styleUrl: './pdf-merge-page.scss'
 })
-export class PdfMergePage {}
+export class PdfMergePage {
+
+  files =
+    signal<File[]>([]);
+
+  jobStatus =
+    signal('');
+
+  jobId =
+    signal('');
+
+  loading =
+    signal(false);
+
+  constructor(
+    private conversionService: ConversionService,
+    private pollingService: PollingService
+  ) {}
+
+  onFilesSelected(
+    event: Event
+  ): void {
+
+    const input =
+      event.target as HTMLInputElement;
+
+    if (!input.files?.length) {
+      return;
+    }
+
+    this.files.set(
+      Array.from(input.files)
+    );
+  }
+
+  merge(): void {
+
+    if (
+      this.files().length < 2
+    ) {
+      return;
+    }
+
+    this.loading.set(true);
+
+    this.conversionService
+      .pdfMerge(
+        this.files()
+      )
+      .subscribe({
+
+        next: response => {
+
+          this.jobId.set(
+            response.jobId
+          );
+
+          this.startPolling(
+            response.jobId
+          );
+        },
+
+        error: () => {
+
+          this.loading.set(false);
+        }
+      });
+  }
+
+  private startPolling(
+    jobId: string
+  ): void {
+
+    this.pollingService
+      .pollJob(jobId)
+      .subscribe(response => {
+
+        this.jobStatus.set(
+          response.status
+        );
+
+        if (
+          response.status === 'Completed' ||
+          response.status === 'Failed'
+        ) {
+          this.loading.set(false);
+        }
+      });
+  }
+
+  download(): void {
+
+    this.conversionService
+      .download(this.jobId())
+      .subscribe(blob => {
+
+        const url =
+          URL.createObjectURL(blob);
+
+        const a =
+          document.createElement('a');
+
+        a.href = url;
+        a.download = 'merged.pdf';
+
+        a.click();
+
+        URL.revokeObjectURL(url);
+      });
+  }
+}

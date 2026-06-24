@@ -46,6 +46,25 @@ return this.http.post<JobResponse>(
 
 }
 
+pdfMerge(
+  files: File[]
+): Observable<JobResponse> {
+
+  const formData = new FormData();
+
+  files.forEach(file => {
+    formData.append(
+      'files',
+      file
+    );
+  });
+
+  return this.http.post<JobResponse>(
+    `${this.apiUrl}/pdf-merge`,
+    formData
+  );
+}
+
 getStatus(
 jobId: string
 ): Observable<JobResponse> {

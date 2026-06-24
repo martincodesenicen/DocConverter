@@ -1,0 +1,71 @@
+<div class="container">
+
+  <mat-card>
+
+    <h1>Merge PDFs</h1>
+
+    <input
+      type="file"
+      multiple
+      accept=".pdf"
+      (change)="onFilesSelected($event)">
+
+    @if(files().length > 0) {
+
+      <ul>
+
+        @for(file of files(); track file.name) {
+
+          <li>
+            {{ file.name }}
+          </li>
+
+        }
+
+      </ul>
+
+    }
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="merge()">
+
+      Merge PDFs
+
+    </button>
+
+    @if(loading()) {
+
+      <div class="spinner">
+
+        <mat-spinner />
+
+      </div>
+
+    }
+
+    @if(jobStatus()) {
+
+      <p>
+        Status:
+        {{ jobStatus() }}
+      </p>
+
+    }
+
+    @if(jobStatus() === 'Completed') {
+
+      <button
+        mat-raised-button
+        (click)="download()">
+
+        Download Result
+
+      </button>
+
+    }
+
+  </mat-card>
+
+</div>
