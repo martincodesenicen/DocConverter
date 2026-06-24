@@ -1,32 +1,53 @@
 .dashboard-container {
-padding: 40px;
+
+  padding: 60px 40px;
 }
 
 .hero {
-text-align: center;
-margin-bottom: 40px;
+
+  text-align: center;
+
+  margin-bottom: 50px;
+
+  h1 {
+
+    font-size: 42px;
+
+    margin-bottom: 10px;
+  }
+
+  p {
+
+    color: #666;
+  }
 }
 
 .cards {
 
-display: grid;
+  display: grid;
 
-grid-template-columns:
-repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns:
+    repeat(auto-fit, minmax(300px, 1fr));
 
-gap: 24px;
+  gap: 24px;
 }
 
 .tool-card {
 
-cursor: pointer;
+  padding: 32px;
 
-padding: 24px;
+  cursor: pointer;
 
-transition: .2s ease;
+  transition: .25s ease;
+
+  border-radius: 16px;
 }
 
 .tool-card:hover {
 
-transform: translateY(-4px);
+  transform:
+    translateY(-6px);
+
+  box-shadow:
+    0 12px 32px rgba(0,0,0,.12);
 }

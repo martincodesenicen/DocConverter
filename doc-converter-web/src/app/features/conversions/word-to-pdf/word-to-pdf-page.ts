@@ -25,6 +25,9 @@ import {
 PollingService
 } from '../../../core/services/polling.service';
 
+import { FileDropzoneComponent }
+from '../../../shared/components/file-dropzone/file-dropzone.component';
+
 @Component({
 selector: 'app-word-to-pdf-page',
 standalone: true,
@@ -32,7 +35,8 @@ imports: [
 CommonModule,
 MatButtonModule,
 MatCardModule,
-MatProgressSpinnerModule
+MatProgressSpinnerModule,
+FileDropzoneComponent
 ],
 templateUrl: './word-to-pdf-page.html',
 styleUrl: './word-to-pdf-page.scss'
@@ -158,5 +162,18 @@ this.conversionService
   });
 
 
+}
+
+onFilesDropped(
+  files: File[]
+): void {
+
+  if (!files.length) {
+    return;
+  }
+
+  this.selectedFile.set(
+    files[0]
+  );
 }
 }

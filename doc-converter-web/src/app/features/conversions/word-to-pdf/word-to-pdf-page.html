@@ -2,54 +2,60 @@
 
   <mat-card>
 
-```
-<h1>Word to PDF</h1>
+    <h1>Word to PDF</h1>
 
-<input
-  type="file"
-  accept=".doc,.docx"
-  (change)="onFileSelected($event)">
+    <app-file-dropzone
+      accept=".doc,.docx"
+      (filesSelected)="onFilesDropped($event)">
+    </app-file-dropzone>
 
-<button
-  mat-raised-button
-  color="primary"
-  (click)="convert()">
+    @if(selectedFile()) {
 
-  Convert
-</button>
+      <div class="file-info">
 
-@if(loading()) {
+        {{ selectedFile()?.name }}
 
-  <div class="spinner">
+      </div>
 
-    <mat-spinner></mat-spinner>
+    }
 
-  </div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="convert()">
 
-}
+      Convert File
 
-@if(jobStatus()) {
+    </button>
 
-  <p>
-    Status:
-    {{ jobStatus() }}
-  </p>
+    @if(loading()) {
 
-}
+      <div class="spinner">
+        <mat-spinner />
+      </div>
 
-@if(jobStatus() === 'Completed') {
+    }
 
-  <button
-    mat-raised-button
-    color="accent"
-    (click)="download()">
+    @if(jobStatus()) {
 
-    Download PDF
+      <p>
+        Status:
+        {{ jobStatus() }}
+      </p>
 
-  </button>
+    }
 
-}
-```
+    @if(jobStatus() === 'Completed') {
+
+      <button
+        mat-raised-button
+        (click)="download()">
+
+        Download PDF
+
+      </button>
+
+    }
 
   </mat-card>
 

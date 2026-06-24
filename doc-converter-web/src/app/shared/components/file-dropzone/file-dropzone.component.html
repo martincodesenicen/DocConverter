@@ -1,0 +1,28 @@
+<div
+  class="dropzone"
+  (dragover)="onDragOver($event)"
+  (drop)="onDrop($event)">
+
+  <input
+    #fileInput
+    hidden
+    type="file"
+    [multiple]="multiple"
+    [accept]="accept"
+    (change)="onFileInput($event)">
+
+  <div
+    class="content"
+    (click)="fileInput.click()">
+
+    <h3>
+      Drag & Drop Files
+    </h3>
+
+    <p>
+      or click here to browse
+    </p>
+
+  </div>
+
+</div>
