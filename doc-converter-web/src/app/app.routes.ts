@@ -25,6 +25,31 @@ export const routes: Routes = [
   },
 
   {
+  path: 'dashboard/word-to-pdf',
+  canActivate: [authGuard],
+  loadComponent: () =>
+  import('./features/conversions/word-to-pdf/word-to-pdf-page')
+  .then(m => m.WordToPdfPage)
+  },
+
+  {
+  path: 'dashboard/pdf-merge',
+  canActivate: [authGuard],
+  loadComponent: () =>
+  import('./features/conversions/pdf-merge/pdf-merge-page')
+  .then(m => m.PdfMergePage)
+  },
+
+  {
+  path: 'dashboard/pdf-split',
+  canActivate: [authGuard],
+  loadComponent: () =>
+  import('./features/conversions/pdf-split/pdf-split-page')
+  .then(m => m.PdfSplitPage)
+  },
+
+
+  {
     path: '**',
     redirectTo: 'auth'
   }

@@ -1,0 +1,32 @@
+.dashboard-container {
+padding: 40px;
+}
+
+.hero {
+text-align: center;
+margin-bottom: 40px;
+}
+
+.cards {
+
+display: grid;
+
+grid-template-columns:
+repeat(auto-fit, minmax(280px, 1fr));
+
+gap: 24px;
+}
+
+.tool-card {
+
+cursor: pointer;
+
+padding: 24px;
+
+transition: .2s ease;
+}
+
+.tool-card:hover {
+
+transform: translateY(-4px);
+}
