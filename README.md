@@ -1,6 +1,12 @@
 # DocConverter
 
-<img width="1024" height="1024" alt="high-level-description-a-modern-saas-log_0V6xE63bX3WSX5XDP4RzLg_YQgfN_m8RN2ZqOe7erFe2w_cover" src="https://github.com/user-attachments/assets/73be5267-0768-4c46-a15f-892fb0dcf69d" />
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/73be5267-0768-4c46-a15f-892fb0dcf69d"
+    alt="Logo"
+    width="512"
+  />
+</p>
 
 DocConverter es una plataforma web para la conversión y procesamiento de documentos desarrollada con ASP.NET Core y Angular.
 
