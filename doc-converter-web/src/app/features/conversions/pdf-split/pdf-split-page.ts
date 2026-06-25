@@ -19,9 +19,8 @@ import { MatInputModule } from '@angular/material/input';
 
 import { ConversionService } from '../../../core/services/conversion.service';
 import { PollingService } from '../../../core/services/polling.service';
-import { JobStatusComponent }
-from '../../../shared/components/job-status/job-status.component';
 
+import { JobStatusComponent } from '../../../shared/components/job-status/job-status.component';
 import { FileDropzoneComponent } from '../../../shared/components/file-dropzone/file-dropzone.component';
 import { ConversionLayoutComponent } from '../../../shared/components/conversion-layout/conversion-layout.component';
 
@@ -29,7 +28,7 @@ import {
   FileDownloadService
 } from '../../../core/services/file-download.service';
 
-import {NotificationService} from '../../../core/services/notification.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   standalone: true,
@@ -50,7 +49,6 @@ import {NotificationService} from '../../../core/services/notification.service';
   styleUrl: './pdf-split-page.scss'
 })
 export class PdfSplitPage {
-
   selectedFile =
     signal<File | null>(null);
 
@@ -72,7 +70,6 @@ export class PdfSplitPage {
     private pollingService: PollingService,
     private notification: NotificationService
   ) {
-
     this.form = this.fb.group({
       startPage: [
         1,
@@ -89,7 +86,6 @@ export class PdfSplitPage {
   onFileSelected(
     event: Event
   ): void {
-
     const input =
       event.target as HTMLInputElement;
 
@@ -102,62 +98,56 @@ export class PdfSplitPage {
     );
   }
 
- split(): void {
-
-  const file =
-    this.selectedFile();
+  split(): void {
+    const file =
+      this.selectedFile();
 
     const {
       startPage,
       endPage
     } = this.form.getRawValue();
 
-  if (!file) {
+    if (!file) {
+      this.notification.error(
+        'Please select a PDF file.'
+      );
 
-    this.notification.error(
-      'Please select a PDF file.'
-    );
+      return;
+    }
 
-    return;
-  }
+    if (
+      !file.name
+        .toLowerCase()
+        .endsWith('.pdf')
+    ) {
+      this.notification.error(
+        'Only PDF files are allowed.'
+      );
 
-  if (
-    !file.name
-      .toLowerCase()
-      .endsWith('.pdf')
-  ) {
+      return;
+    }
 
-    this.notification.error(
-      'Only PDF files are allowed.'
-    );
+    if (
+      this.form.invalid
+    ) {
+      this.form.markAllAsTouched();
 
-    return;
-  }
+      this.notification.error(
+        'Please enter valid page numbers.'
+      );
 
-  if (
-    this.form.invalid
-  ) {
+      return;
+    }
 
-    this.form.markAllAsTouched();
+    if (
+      startPage! > endPage!
+    ) {
+      this.notification.error(
+        'End page must be greater than start page.'
+      );
 
-    this.notification.error(
-      'Please enter valid page numbers.'
-    );
-
-    return;
-  }
-
-  if (
-    startPage! > endPage!
-  ) {
-
-    this.notification.error(
-      'End page must be greater than start page.'
-    );
-
-    return;
-  }
-
+      return;
+    }
 
     this.loading.set(true);
 
@@ -168,9 +158,7 @@ export class PdfSplitPage {
         endPage!
       )
       .subscribe({
-
         next: response => {
-
           this.jobId.set(
             response.jobId
           );
@@ -181,7 +169,6 @@ export class PdfSplitPage {
         },
 
         error: () => {
-
           this.loading.set(false);
         }
       });
@@ -190,11 +177,9 @@ export class PdfSplitPage {
   private startPolling(
     jobId: string
   ): void {
-
     this.pollingService
       .pollJob(jobId)
       .subscribe(response => {
-
         this.jobStatus.set(
           response.status
         );
@@ -209,11 +194,9 @@ export class PdfSplitPage {
   }
 
   download(): void {
-
     this.conversionService
       .download(this.jobId())
       .subscribe(blob => {
-
         this.fileDownloadService
           .downloadBlob(
             blob,
@@ -225,7 +208,6 @@ export class PdfSplitPage {
   onFilesDropped(
     files: File[]
   ): void {
-
     if (!files.length) {
       return;
     }

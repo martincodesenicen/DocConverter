@@ -9,21 +9,13 @@
   </app-file-dropzone>
 
   @if(files().length) {
-
     <div class="files-list">
-
       @for(file of files(); track file.name) {
-
         <div class="file-item">
-
           {{ file.name }}
-
         </div>
-
       }
-
     </div>
-
   }
 
   <button
@@ -32,7 +24,6 @@
     (click)="merge()">
 
     Merge PDFs
-
   </button>
 
   <app-job-status

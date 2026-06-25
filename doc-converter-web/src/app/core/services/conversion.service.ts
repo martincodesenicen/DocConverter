@@ -109,15 +109,10 @@ return this.http.get<JobResponse>(
 download(
 jobId: string
 ): Observable<Blob> {
-
-
-return this.http.get(
-  `${this.apiUrl}/download/${jobId}`,
-  {
-    responseType: 'blob'
+  return this.http.get(
+    `${this.apiUrl}/download/${jobId}`,
+    {
+      responseType: 'blob'
+    });
   }
-);
-
-
-}
 }

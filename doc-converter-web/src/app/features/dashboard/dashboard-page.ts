@@ -10,13 +10,14 @@ import {MatIconModule} from '@angular/material/icon';
 selector: 'app-dashboard-page',
 standalone: true,
 imports: [
-CommonModule,
-RouterLink,
-MatCardModule,
-NavbarComponent,
-MatIconModule
+    CommonModule,
+    RouterLink,
+    MatCardModule,
+    NavbarComponent,
+    MatIconModule
 ],
-templateUrl: './dashboard-page.html',
-styleUrl: './dashboard-page.scss'
+    templateUrl: './dashboard-page.html',
+    styleUrl: './dashboard-page.scss'
 })
+
 export class DashboardPage {}

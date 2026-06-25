@@ -8,13 +8,9 @@
   </app-file-dropzone>
 
   @if(selectedFile()) {
-
     <div class="file-info">
-
       {{ selectedFile()?.name }}
-
     </div>
-
   }
 
   <button
@@ -23,7 +19,6 @@
     (click)="convert()">
 
     Convert File
-
   </button>
 
   <app-job-status

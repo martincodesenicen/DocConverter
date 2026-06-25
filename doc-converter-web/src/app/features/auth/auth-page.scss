@@ -1,5 +1,4 @@
 .auth-container {
-
   min-height: 100vh;
 
   display: flex;
@@ -20,7 +19,6 @@
 }
 
 .auth-card {
-
   width: 100%;
 
   max-width: 520px;
@@ -38,7 +36,6 @@
 }
 
 .logo-badge {
-
   width: 72px;
 
   height: 72px;
@@ -65,7 +62,6 @@
 }
 
 .logo-badge {
-
   width: 90px;
 
   height: 90px;
@@ -78,7 +74,6 @@
 }
 
 .logo-badge img {
-
   width: 100%;
 
   height: 100%;
@@ -87,7 +82,6 @@
 }
 
 .auth-card h1 {
-
   text-align: center;
 
   margin: 0;
@@ -100,7 +94,6 @@
 }
 
 .subtitle {
-
   text-align: center;
 
   color: #64748b;
@@ -113,7 +106,6 @@
 }
 
 form {
-
   display: flex;
 
   flex-direction: column;
@@ -124,12 +116,10 @@ form {
 }
 
 mat-form-field {
-
   width: 100%;
 }
 
 button {
-
   height: 48px;
 
   border-radius: 14px;
@@ -138,7 +128,6 @@ button {
 }
 
 .error {
-
   margin-top: 20px;
 
   padding: 14px;
@@ -153,7 +142,6 @@ button {
 }
 
 .spinner {
-
   margin-top: 24px;
 
   display: flex;
@@ -162,16 +150,13 @@ button {
 }
 
 mat-tab-group {
-
   margin-top: 24px;
 }
 
 ::ng-deep .mat-mdc-tab-header {
-
   margin-bottom: 24px;
 }
 
 ::ng-deep .mat-mdc-tab {
-
   font-weight: 600;
 }

@@ -1,115 +1,97 @@
 <div class="logo-badge">
-
   <img
     src="icon.png"
     alt="Doc Converter">
-
 </div>
 
 <div class="auth-container">
-
   <mat-card class="auth-card">
+    <h1>Doc Converter</h1>
 
-<h1>Doc Converter</h1>
+    <p class="subtitle">
+      Convert, merge and split documents securely.
+    </p>
 
-<p class="subtitle">
-  Convert, merge and split documents securely.
-</p>
+    <mat-tab-group>
+      <mat-tab label="Login">
+        <form
+          [formGroup]="loginForm"
+          (ngSubmit)="login()">
 
-<mat-tab-group>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
 
-  <mat-tab label="Login">
+            <input
+              matInput
+              type="email"
+              formControlName="email">
+          </mat-form-field>
 
-    <form
-      [formGroup]="loginForm"
-      (ngSubmit)="login()">
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="password"
+              formControlName="password">
+          </mat-form-field>
 
-        <input
-          matInput
-          type="email"
-          formControlName="email">
-      </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit">
 
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
+            Login
+          </button>
+        </form>
+      </mat-tab>
 
-        <input
-          matInput
-          type="password"
-          formControlName="password">
-      </mat-form-field>
+      <mat-tab label="Registro">
+        <form
+          [formGroup]="registerForm"
+          (ngSubmit)="register()">
 
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit">
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
 
-        Login
-      </button>
+            <input
+              matInput
+              type="email"
+              formControlName="email">
+          </mat-form-field>
 
-    </form>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
 
-  </mat-tab>
+            <input
+              matInput
+              type="password"
+              formControlName="password">
+          </mat-form-field>
 
-  <mat-tab label="Registro">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit">
 
-    <form
-      [formGroup]="registerForm"
-      (ngSubmit)="register()">
+            Registrarme
+          </button>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
+    @if(errorMessage()) {
+      <p class="error">
+        {{ errorMessage() }}
+      </p>
+    }
 
-        <input
-          matInput
-          type="email"
-          formControlName="email">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-
-        <input
-          matInput
-          type="password"
-          formControlName="password">
-      </mat-form-field>
-
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit">
-
-        Registrarme
-      </button>
-
-    </form>
-
-  </mat-tab>
-
-</mat-tab-group>
-
-@if(errorMessage()) {
-  <p class="error">
-    {{ errorMessage() }}
-  </p>
-}
-
-@if(loading()) {
-
-  <div class="spinner">
-
-    <mat-spinner
-      diameter="40">
-    </mat-spinner>
-
-  </div>
-
-}
-
+    @if(loading()) {
+      <div class="spinner">
+        <mat-spinner
+          diameter="40">
+        </mat-spinner>
+      </div>
+    }
   </mat-card>
-
 </div>

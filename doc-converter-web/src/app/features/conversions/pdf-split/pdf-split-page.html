@@ -8,20 +8,15 @@
   </app-file-dropzone>
 
   @if(selectedFile()) {
-
     <div class="file-info">
-
       {{ selectedFile()?.name }}
-
     </div>
-
   }
 
   <form
     [formGroup]="form">
 
     <mat-form-field appearance="outline">
-
       <mat-label>
         Start Page
       </mat-label>
@@ -30,11 +25,9 @@
         matInput
         type="number"
         formControlName="startPage">
-
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-
       <mat-label>
         End Page
       </mat-label>
@@ -43,7 +36,6 @@
         matInput
         type="number"
         formControlName="endPage">
-
     </mat-form-field>
 
   </form>
@@ -54,7 +46,6 @@
     (click)="split()">
 
     Split PDF
-
   </button>
 
   <app-job-status
