@@ -19,6 +19,9 @@ from '../../../shared/components/conversion-layout/conversion-layout.component';
 
 import { FileDropzoneComponent } from '../../../shared/components/file-dropzone/file-dropzone.component';
 
+import {
+  FileDownloadService
+} from '../../../core/services/file-download.service';
 
 @Component({
   standalone: true,
@@ -50,6 +53,7 @@ export class PdfMergePage {
 
   constructor(
     private conversionService: ConversionService,
+    private fileDownloadService: FileDownloadService,  
     private pollingService: PollingService
   ) {}
 
@@ -137,18 +141,11 @@ export class PdfMergePage {
       .download(this.jobId())
       .subscribe(blob => {
 
-        const url =
-          URL.createObjectURL(blob);
-
-        const a =
-          document.createElement('a');
-
-        a.href = url;
-        a.download = 'merged.pdf';
-
-        a.click();
-
-        URL.revokeObjectURL(url);
+        this.fileDownloadService
+          .downloadBlob(
+            blob,
+            'merged.pdf'
+          );
       });
   }
 }

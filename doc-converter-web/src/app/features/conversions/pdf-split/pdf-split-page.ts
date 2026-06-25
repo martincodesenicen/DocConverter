@@ -25,6 +25,10 @@ from '../../../shared/components/job-status/job-status.component';
 import { FileDropzoneComponent } from '../../../shared/components/file-dropzone/file-dropzone.component';
 import { ConversionLayoutComponent } from '../../../shared/components/conversion-layout/conversion-layout.component';
 
+import {
+  FileDownloadService
+} from '../../../core/services/file-download.service';
+
 @Component({
   standalone: true,
   imports: [
@@ -62,6 +66,7 @@ export class PdfSplitPage {
   constructor(
     private fb: FormBuilder,
     private conversionService: ConversionService,
+    private fileDownloadService: FileDownloadService,
     private pollingService: PollingService
   ) {
 
@@ -163,18 +168,11 @@ export class PdfSplitPage {
       .download(this.jobId())
       .subscribe(blob => {
 
-        const url =
-          URL.createObjectURL(blob);
-
-        const a =
-          document.createElement('a');
-
-        a.href = url;
-        a.download = 'split.pdf';
-
-        a.click();
-
-        URL.revokeObjectURL(url);
+        this.fileDownloadService
+          .downloadBlob(
+            blob,
+            'split.pdf'
+          );
       });
   }
 

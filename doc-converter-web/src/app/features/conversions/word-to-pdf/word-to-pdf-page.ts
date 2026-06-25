@@ -34,6 +34,10 @@ from '../../../shared/components/job-status/job-status.component';
 import { ConversionLayoutComponent }
 from '../../../shared/components/conversion-layout/conversion-layout.component';
 
+import {
+  FileDownloadService
+} from '../../../core/services/file-download.service';
+
 @Component({
 selector: 'app-word-to-pdf-page',
 standalone: true,
@@ -65,7 +69,8 @@ signal(false);
 
 constructor(
 private conversionService: ConversionService,
-private pollingService: PollingService
+private pollingService: PollingService,
+private fileDownloadService: FileDownloadService
 ) {}
 
 onFileSelected(
@@ -149,27 +154,16 @@ this.pollingService
 
 download(): void {
 
+  this.conversionService
+    .download(this.jobId())
+    .subscribe(blob => {
 
-this.conversionService
-  .download(this.jobId())
-  .subscribe(blob => {
-
-    const url =
-      window.URL.createObjectURL(blob);
-
-    const a =
-      document.createElement('a');
-
-    a.href = url;
-
-    a.download = 'result.pdf';
-
-    a.click();
-
-    window.URL.revokeObjectURL(url);
-  });
-
-
+      this.fileDownloadService
+        .downloadBlob(
+          blob,
+          'result.pdf'
+        );
+    });
 }
 
 onFilesDropped(
