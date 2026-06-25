@@ -112,20 +112,11 @@ this.authService.register(request)
     next: () => {
 
       this.loading.set(false);
-
-      this.notification.success(
-        'Registration successful'
-      );
     },
 
     error: (error) => {
 
       this.loading.set(false);
-
-      this.notification.error(
-        error?.error?.message ??
-        'Registration failed'
-      );
     }
   });
 
