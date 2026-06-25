@@ -1,17 +1,21 @@
 .dashboard-container {
 
-  padding: 60px 40px;
+  max-width: 1200px;
+
+  margin: auto;
+
+  padding: 50px 24px;
 }
 
 .hero {
 
   text-align: center;
 
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 
   h1 {
 
-    font-size: 42px;
+    font-size: 3rem;
 
     margin-bottom: 10px;
   }
@@ -19,6 +23,8 @@
   p {
 
     color: #666;
+
+    font-size: 1.1rem;
   }
 }
 
@@ -26,27 +32,25 @@
 
   display: grid;
 
+  gap: 24px;
+
   grid-template-columns:
     repeat(auto-fit, minmax(300px, 1fr));
-
-  gap: 24px;
 }
 
 .tool-card {
 
-  padding: 32px;
-
   cursor: pointer;
 
-  transition: .25s ease;
+  padding: 30px;
 
-  border-radius: 16px;
+  transition: .25s ease;
 }
 
 .tool-card:hover {
 
   transform:
-    translateY(-6px);
+    translateY(-5px);
 
   box-shadow:
     0 12px 32px rgba(0,0,0,.12);
