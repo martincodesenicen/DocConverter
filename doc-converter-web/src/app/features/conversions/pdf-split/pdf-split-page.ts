@@ -29,6 +29,8 @@ import {
   FileDownloadService
 } from '../../../core/services/file-download.service';
 
+import {NotificationService} from '../../../core/services/notification.service';
+
 @Component({
   standalone: true,
   imports: [
@@ -67,7 +69,8 @@ export class PdfSplitPage {
     private fb: FormBuilder,
     private conversionService: ConversionService,
     private fileDownloadService: FileDownloadService,
-    private pollingService: PollingService
+    private pollingService: PollingService,
+    private notification: NotificationService
   ) {
 
     this.form = this.fb.group({
@@ -99,21 +102,64 @@ export class PdfSplitPage {
     );
   }
 
-  split(): void {
+ split(): void {
 
-    if (
-      !this.selectedFile() ||
-      this.form.invalid
-    ) {
-      return;
-    }
-
-    this.loading.set(true);
+  const file =
+    this.selectedFile();
 
     const {
       startPage,
       endPage
     } = this.form.getRawValue();
+
+  if (!file) {
+
+    this.notification.error(
+      'Please select a PDF file.'
+    );
+
+    return;
+  }
+
+  if (
+    !file.name
+      .toLowerCase()
+      .endsWith('.pdf')
+  ) {
+
+    this.notification.error(
+      'Only PDF files are allowed.'
+    );
+
+    return;
+  }
+
+  if (
+    this.form.invalid
+  ) {
+
+    this.form.markAllAsTouched();
+
+    this.notification.error(
+      'Please enter valid page numbers.'
+    );
+
+    return;
+  }
+
+  if (
+    startPage! > endPage!
+  ) {
+
+    this.notification.error(
+      'End page must be greater than start page.'
+    );
+
+    return;
+  }
+
+
+    this.loading.set(true);
 
     this.conversionService
       .pdfSplit(

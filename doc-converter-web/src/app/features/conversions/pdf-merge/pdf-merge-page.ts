@@ -23,6 +23,9 @@ import {
   FileDownloadService
 } from '../../../core/services/file-download.service';
 
+import { NotificationService }
+from '../../../core/services/notification.service';
+
 @Component({
   standalone: true,
   imports: [
@@ -54,7 +57,8 @@ export class PdfMergePage {
   constructor(
     private conversionService: ConversionService,
     private fileDownloadService: FileDownloadService,  
-    private pollingService: PollingService
+    private pollingService: PollingService,
+    private notification: NotificationService
   ) {}
 
   onFilesSelected(
@@ -85,6 +89,28 @@ export class PdfMergePage {
     if (
       this.files().length < 2
     ) {
+
+      this.notification.error(
+        'Select at least 2 PDF files.'
+      );
+
+      return;
+    }
+
+    const invalidFile =
+      this.files().find(
+        file =>
+          !file.name
+            .toLowerCase()
+            .endsWith('.pdf')
+      );
+
+    if (invalidFile) {
+
+      this.notification.error(
+        'Only PDF files are allowed.'
+      );
+
       return;
     }
 

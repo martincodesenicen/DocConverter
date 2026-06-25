@@ -38,6 +38,9 @@ import {
   FileDownloadService
 } from '../../../core/services/file-download.service';
 
+import { NotificationService }
+from '../../../core/services/notification.service';
+
 @Component({
 selector: 'app-word-to-pdf-page',
 standalone: true,
@@ -70,7 +73,8 @@ signal(false);
 constructor(
 private conversionService: ConversionService,
 private pollingService: PollingService,
-private fileDownloadService: FileDownloadService
+private fileDownloadService: FileDownloadService,
+private notification: NotificationService
 ) {}
 
 onFileSelected(
@@ -94,13 +98,33 @@ this.selectedFile.set(
 
 convert(): void {
 
+  const file =
+    this.selectedFile();
 
-const file =
-  this.selectedFile();
+  if (!file) {
 
-if (!file) {
-  return;
-}
+    this.notification.error(
+      'Please select a Word file.'
+    );
+
+    return;
+  }
+
+  const extension =
+    file.name
+      .toLowerCase();
+
+  if (
+    !extension.endsWith('.doc') &&
+    !extension.endsWith('.docx')
+  ) {
+
+    this.notification.error(
+      'Only .doc and .docx files are allowed.'
+    );
+
+    return;
+  }
 
 this.loading.set(true);
 

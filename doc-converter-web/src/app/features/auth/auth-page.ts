@@ -37,8 +37,7 @@ MatCardModule,
 MatFormFieldModule,
 MatInputModule,
 MatButtonModule,
-MatProgressSpinnerModule,
-MatIcon
+MatProgressSpinnerModule
 ],
 templateUrl: './auth-page.html',
 styleUrl: './auth-page.scss'
@@ -101,7 +100,7 @@ this.authService.login(request)
 
 register(): void {
 if (this.registerForm.invalid) {
-  return;
+  this.registerForm.markAllAsTouched();
 }
 
 this.loading.set(true);
