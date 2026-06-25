@@ -24,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NotificationService } from '../../core/services/notification.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
 selector: 'app-auth-page',
@@ -36,7 +37,8 @@ MatCardModule,
 MatFormFieldModule,
 MatInputModule,
 MatButtonModule,
-MatProgressSpinnerModule
+MatProgressSpinnerModule,
+MatIcon
 ],
 templateUrl: './auth-page.html',
 styleUrl: './auth-page.scss'

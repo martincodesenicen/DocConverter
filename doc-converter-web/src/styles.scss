@@ -1,6 +1,5 @@
 html,
 body {
-
   height: 100%;
 }
 
@@ -10,14 +9,211 @@ body {
 
   font-family:
     Inter,
-    Roboto,
     sans-serif;
 
   background:
-    #f6f8fb;
+    radial-gradient(
+      circle at top,
+      #172554 0%,
+      #0f172a 35%,
+      #020617 100%
+    );
+
+  color: #f8fafc;
 }
 
 * {
-
   box-sizing: border-box;
+}
+
+:root {
+
+  --primary: #6366f1;
+
+  --primary-light: #818cf8;
+
+  --surface: #172033;
+
+  --text: #f8fafc;
+
+  --text-secondary: #94a3b8;
+
+  --border: #25324a;
+
+  --shadow:
+    0 12px 32px rgba(0,0,0,.35);
+
+  --shadow-hover:
+    0 20px 45px rgba(99,102,241,.18);
+}
+
+/* ---------- Material Overrides ---------- */
+
+.mat-mdc-card {
+
+  border-radius: 24px !important;
+
+  border: 1px solid #e2e8f0;
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.08) !important;
+}
+
+.mat-mdc-raised-button {
+
+  border-radius: 14px !important;
+
+  font-weight: 600 !important;
+}
+
+.mat-mdc-unelevated-button {
+
+  border-radius: 14px !important;
+}
+
+.mat-mdc-outlined-button {
+
+  border-radius: 14px !important;
+}
+
+.mat-mdc-form-field {
+
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+
+  border-radius: 16px !important;
+}
+
+.mdc-text-field--outlined {
+
+  background: white;
+}
+
+.mat-mdc-tab-group {
+
+  --mdc-secondary-navigation-tab-container-height: 56px;
+}
+
+.mat-mdc-tab {
+
+  font-weight: 600 !important;
+}
+
+.mat-mdc-progress-spinner {
+
+  --mdc-circular-progress-active-indicator-color:
+    var(--primary);
+}
+
+.material-symbols-rounded {
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* ==========================================
+   DARK MATERIAL INPUTS
+   ========================================== */
+
+.mat-mdc-form-field {
+
+  width: 100%;
+}
+
+.mat-mdc-input-element {
+
+  color: #f8fafc !important;
+
+  caret-color: #6366f1 !important;
+}
+
+.mat-mdc-floating-label {
+
+  color: #94a3b8 !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+
+  color: #818cf8 !important;
+}
+
+.mdc-notched-outline__leading,
+.mdc-notched-outline__notch,
+.mdc-notched-outline__trailing {
+
+  border-color: #334155 !important;
+}
+
+.mat-mdc-form-field.mat-focused {
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+
+    border-color: #6366f1 !important;
+  }
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+
+  color: #94a3b8;
+}
+
+.mdc-text-field--outlined {
+
+  background: #1e293b !important;
+
+  border-radius: 16px !important;
+}
+
+input::placeholder {
+
+  color: #64748b;
+}
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button {
+
+  background: linear-gradient(
+    135deg,
+    #4f46e5,
+    #6366f1
+  ) !important;
+
+  color: white !important;
+
+  border: none !important;
+
+  box-shadow:
+    0 8px 24px rgba(99,102,241,.35) !important;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease !important;
+}
+
+.mat-mdc-raised-button:hover,
+.mat-mdc-unelevated-button:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 32px rgba(99,102,241,.45) !important;
+}
+
+.mat-mdc-raised-button:disabled,
+.mat-mdc-unelevated-button:disabled {
+
+  opacity: .5;
+
+  box-shadow: none !important;
 }

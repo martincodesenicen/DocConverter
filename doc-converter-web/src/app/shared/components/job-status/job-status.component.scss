@@ -4,61 +4,92 @@
 
   align-items: center;
 
-  gap: 16px;
+  gap: 18px;
 
-  padding: 18px;
+  padding: 22px;
 
-  border-radius: 14px;
+  border-radius: 18px;
 
-  margin-top: 20px;
+  margin-top: 24px;
 
   border: 1px solid transparent;
 
-  p {
+  box-shadow:
+    0 8px 24px rgba(15,23,42,.04);
 
-    margin: 4px 0 0;
+  transition: all .25s ease;
+}
 
-    opacity: .8;
-  }
+.job-state strong {
+
+  display: block;
+
+  font-size: 1rem;
+
+  margin-bottom: 4px;
+}
+
+.job-state p {
+
+  margin: 0;
+
+  opacity: .85;
+
+  line-height: 1.5;
 }
 
 .pending {
 
-  background: #fff8e1;
+  background: #fffaf0;
 
-  border-color: #ffe082;
+  border-color: #fcd34d;
 
-  color: #8d6e63;
+  color: #92400e;
 }
 
 .processing {
 
-  background: #e8f0fe;
+  background: #eff6ff;
 
-  border-color: #90caf9;
+  border-color: #93c5fd;
 
-  color: #1565c0;
+  color: #1d4ed8;
 }
 
 .completed {
 
-  background: #e8f5e9;
+  background: #ecfdf5;
 
-  border-color: #81c784;
+  border-color: #6ee7b7;
 
-  color: #2e7d32;
+  color: #047857;
 }
 
 .failed {
 
-  background: #ffebee;
+  background: #fef2f2;
 
-  border-color: #ef9a9a;
+  border-color: #fca5a5;
 
-  color: #c62828;
+  color: #b91c1c;
 }
 
 .material-icons {
 
-  font-size: 30px;
+  font-size: 34px;
+
+  width: 34px;
+
+  height: 34px;
+}
+
+button {
+
+  margin-top: 20px;
+
+  height: 48px;
+
+  border-radius: 14px;
+
+  font-weight: 600;
 }
