@@ -14,6 +14,11 @@ import { PollingService } from '../../../core/services/polling.service';
 import { JobStatusComponent }
 from '../../../shared/components/job-status/job-status.component';
 
+import { ConversionLayoutComponent }
+from '../../../shared/components/conversion-layout/conversion-layout.component';
+
+import { FileDropzoneComponent } from '../../../shared/components/file-dropzone/file-dropzone.component';
+
 
 @Component({
   standalone: true,
@@ -22,7 +27,9 @@ from '../../../shared/components/job-status/job-status.component';
     MatCardModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    JobStatusComponent
+    JobStatusComponent,
+    ConversionLayoutComponent,
+    FileDropzoneComponent
   ],
   templateUrl: './pdf-merge-page.html',
   styleUrl: './pdf-merge-page.scss'
@@ -61,6 +68,13 @@ export class PdfMergePage {
       Array.from(input.files)
     );
   }
+
+  onFilesDropped(
+  files: File[]
+): void {
+
+  this.files.set(files);
+}
 
   merge(): void {
 

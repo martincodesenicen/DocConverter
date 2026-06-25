@@ -31,6 +31,9 @@ from '../../../shared/components/file-dropzone/file-dropzone.component';
 import { JobStatusComponent }
 from '../../../shared/components/job-status/job-status.component';
 
+import { ConversionLayoutComponent }
+from '../../../shared/components/conversion-layout/conversion-layout.component';
+
 @Component({
 selector: 'app-word-to-pdf-page',
 standalone: true,
@@ -40,7 +43,8 @@ MatButtonModule,
 MatCardModule,
 MatProgressSpinnerModule,
 FileDropzoneComponent,
-JobStatusComponent
+JobStatusComponent,
+ConversionLayoutComponent
 ],
 templateUrl: './word-to-pdf-page.html',
 styleUrl: './word-to-pdf-page.scss'

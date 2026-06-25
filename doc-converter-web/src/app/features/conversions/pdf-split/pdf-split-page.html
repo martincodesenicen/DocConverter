@@ -1,60 +1,66 @@
-<div class="container">
+<app-conversion-layout
+  title="Split PDF"
+  description="Extract a range of pages from a PDF document">
 
-  <mat-card>
+  <app-file-dropzone
+    accept=".pdf"
+    (filesSelected)="onFilesDropped($event)">
+  </app-file-dropzone>
 
-    <h1>Split PDF</h1>
+  @if(selectedFile()) {
 
-    <input
-      type="file"
-      accept=".pdf"
-      (change)="onFileSelected($event)">
+    <div class="file-info">
 
-    <form
-      [formGroup]="form">
+      {{ selectedFile()?.name }}
 
-      <mat-form-field appearance="outline">
+    </div>
 
-        <mat-label>
-          Start Page
-        </mat-label>
+  }
 
-        <input
-          matInput
-          type="number"
-          formControlName="startPage">
+  <form
+    [formGroup]="form">
 
-      </mat-form-field>
+    <mat-form-field appearance="outline">
 
-      <mat-form-field appearance="outline">
+      <mat-label>
+        Start Page
+      </mat-label>
 
-        <mat-label>
-          End Page
-        </mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="startPage">
 
-        <input
-          matInput
-          type="number"
-          formControlName="endPage">
+    </mat-form-field>
 
-      </mat-form-field>
+    <mat-form-field appearance="outline">
 
-    </form>
+      <mat-label>
+        End Page
+      </mat-label>
 
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="split()">
+      <input
+        matInput
+        type="number"
+        formControlName="endPage">
 
-      Split PDF
+    </mat-form-field>
 
-    </button>
+  </form>
 
-    <app-job-status
-      [loading]="loading()"
-      [status]="jobStatus()"
-      (downloadClicked)="download()">
-    </app-job-status>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="split()">
 
-  </mat-card>
+    Split PDF
 
-</div>
+  </button>
+
+  <app-job-status
+    [loading]="loading()"
+    [status]="jobStatus()"
+    (downloadClicked)="download()">
+  </app-job-status>
+
+</app-conversion-layout>

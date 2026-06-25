@@ -22,6 +22,9 @@ import { PollingService } from '../../../core/services/polling.service';
 import { JobStatusComponent }
 from '../../../shared/components/job-status/job-status.component';
 
+import { FileDropzoneComponent } from '../../../shared/components/file-dropzone/file-dropzone.component';
+import { ConversionLayoutComponent } from '../../../shared/components/conversion-layout/conversion-layout.component';
+
 @Component({
   standalone: true,
   imports: [
@@ -33,7 +36,9 @@ from '../../../shared/components/job-status/job-status.component';
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
-    JobStatusComponent
+    FileDropzoneComponent,
+    JobStatusComponent,
+    ConversionLayoutComponent
   ],
   templateUrl: './pdf-split-page.html',
   styleUrl: './pdf-split-page.scss'
@@ -171,5 +176,18 @@ export class PdfSplitPage {
 
         URL.revokeObjectURL(url);
       });
+  }
+
+  onFilesDropped(
+    files: File[]
+  ): void {
+
+    if (!files.length) {
+      return;
+    }
+
+    this.selectedFile.set(
+      files[0]
+    );
   }
 }

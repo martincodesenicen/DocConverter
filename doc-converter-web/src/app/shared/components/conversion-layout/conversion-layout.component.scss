@@ -1,0 +1,36 @@
+.page-container {
+
+  display: flex;
+
+  justify-content: center;
+
+  padding: 40px 20px;
+}
+
+.conversion-card {
+
+  width: 100%;
+
+  max-width: 900px;
+
+  padding: 32px;
+
+  border-radius: 20px;
+}
+
+.header {
+
+  margin-bottom: 24px;
+
+  text-align: center;
+}
+
+.header h1 {
+
+  margin-bottom: 8px;
+}
+
+.header p {
+
+  color: #666;
+}

@@ -1,46 +1,44 @@
-<div class="container">
+<app-conversion-layout
+  title="Merge PDFs"
+  description="Combine multiple PDF files into a single document">
 
-  <mat-card>
+  <app-file-dropzone
+    [multiple]="true"
+    accept=".pdf"
+    (filesSelected)="onFilesDropped($event)">
+  </app-file-dropzone>
 
-    <h1>Merge PDFs</h1>
+  @if(files().length) {
 
-    <input
-      type="file"
-      multiple
-      accept=".pdf"
-      (change)="onFilesSelected($event)">
+    <div class="files-list">
 
-    @if(files().length > 0) {
+      @for(file of files(); track file.name) {
 
-      <ul>
+        <div class="file-item">
 
-        @for(file of files(); track file.name) {
+          {{ file.name }}
 
-          <li>
-            {{ file.name }}
-          </li>
+        </div>
 
-        }
+      }
 
-      </ul>
+    </div>
 
-    }
+  }
 
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="merge()">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="merge()">
 
-      Merge PDFs
+    Merge PDFs
 
-    </button>
+  </button>
 
-    <app-job-status
-      [loading]="loading()"
-      [status]="jobStatus()"
-      (downloadClicked)="download()">
-    </app-job-status>
+  <app-job-status
+    [loading]="loading()"
+    [status]="jobStatus()"
+    (downloadClicked)="download()">
+  </app-job-status>
 
-  </mat-card>
-
-</div>
+</app-conversion-layout>

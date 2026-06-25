@@ -1,39 +1,35 @@
-<div class="container">
+<app-conversion-layout
+  title="Word to PDF"
+  description="Convert DOC and DOCX files into PDF documents">
 
-  <mat-card>
+  <app-file-dropzone
+    accept=".doc,.docx"
+    (filesSelected)="onFilesDropped($event)">
+  </app-file-dropzone>
 
-    <h1>Word to PDF</h1>
+  @if(selectedFile()) {
 
-    <app-file-dropzone
-      accept=".doc,.docx"
-      (filesSelected)="onFilesDropped($event)">
-    </app-file-dropzone>
+    <div class="file-info">
 
-    @if(selectedFile()) {
+      {{ selectedFile()?.name }}
 
-      <div class="file-info">
+    </div>
 
-        {{ selectedFile()?.name }}
+  }
 
-      </div>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="convert()">
 
-    }
+    Convert File
 
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="convert()">
+  </button>
 
-      Convert File
+  <app-job-status
+    [loading]="loading()"
+    [status]="jobStatus()"
+    (downloadClicked)="download()">
+  </app-job-status>
 
-    </button>
-
-    <app-job-status
-      [loading]="loading()"
-     [status]="jobStatus()"
-      (downloadClicked)="download()">
-    </app-job-status>
-
-  </mat-card>
-
-</div>
+</app-conversion-layout>
