@@ -1,132 +1,388 @@
-# DocConverter API
+# DocConverter
 
-DocConverter es una API REST que diseñé para la gestión y procesamiento de documentos. Está desarrollada siguiendo los principios de **Clean Architecture** y **Domain-Driven Design (DDD)**, manteniendo separadas las reglas de negocio de la infraestructura y los detalles de implementación.
+DocConverter es una plataforma web para la conversión y procesamiento de documentos desarrollada con ASP.NET Core y Angular.
 
-La plataforma permite gestionar usuarios y ejecutar tareas de procesamiento de archivos en segundo plano, como la conversión de Word a PDF, la fusión de múltiples PDFs y la división de documentos por rangos de páginas.
+La aplicación permite a los usuarios registrarse, autenticarse mediante JWT y ejecutar tareas de procesamiento de documentos, incluyendo:
+
+- Conversión de Word a PDF (word-to-pdf).
+- Unión de múltiples archivos PDF (merge-pdf).
+- División de PDFs por rango de páginas (split-pdf).
+- Descarga de archivos procesados.
+- Seguimiento del estado de las conversiones mediante polling.
 
 ---
 
-## Arquitectura
+## Arquitectura General
 
-El proyecto está organizado siguiendo **Clean Architecture**, separando cada responsabilidad en capas independientes.
+El proyecto está dividido en dos aplicaciones independientes (ya que primero desarrollé el backend y luego el frontend):
+
+```text
+DocConverter
+│
+├── src/
+│   ├── DocConverter.API
+│   ├── DocConverter.Application
+│   ├── DocConverter.Domain
+│   └── DocConverter.Infrastructure
+│
+└── doc-converter-web/
+    └── Angular 21
+```
+
+---
+
+## Backend
+
+El backend está desarrollado siguiendo los principios de Clean Architecture y Domain-Driven Design (DDD).
 
 ```text
 src/
-├── DocConverter.Domain/         # Entidades, enums, interfaces core y excepciones de dominio
-├── DocConverter.Application/    # Casos de uso, DTOs, servicios de aplicación y validaciones
-├── DocConverter.Infrastructure/ # Persistencia, manejo de archivos y procesamiento en segundo plano
-└── DocConverter.API/            # Endpoints REST, middlewares, autenticación y configuración
+├── DocConverter.Domain
+├── DocConverter.Application
+├── DocConverter.Infrastructure
+└── DocConverter.API
 ```
 
-### Componentes principales
+### Responsabilidades
 
-* **Procesamiento asincrónico:** Las solicitudes de procesamiento de archivos no bloquean las peticiones HTTP. Las tareas se envían a canales en memoria mediante `System.Threading.Channels` y son procesadas por un `BackgroundService`.
+#### Domain
 
-* **Flujo REST para tareas en segundo plano:** Las operaciones retornan inmediatamente un código `202 Accepted` junto con un `JobId`. El cliente luego puede consultar el estado de la tarea.
+Contiene:
 
-* **Almacenamiento de archivos:** Los archivos físicos se guardan en disco utilizando nombres generados con `Guid`. La base de datos almacena únicamente la información necesaria para su gestión.
+- Entidades
+- Enums
+- Interfaces del dominio
+- Excepciones de negocio
 
-* **Manejo global de excepciones:** Un middleware centraliza la captura de excepciones y las transforma en respuestas JSON consistentes con sus respectivos códigos HTTP (`400`, `401`, `404`, `500`).
+#### Application
 
-* **Autenticación desacoplada:** La autenticación se basa en JWT y las contraseñas se almacenan utilizando BCrypt. La información del usuario autenticado se expone mediante la abstracción `ICurrentUserService`, evitando dependencias directas con `HttpContext`.
+Contiene:
+
+- Casos de uso
+- DTOs
+- Servicios de aplicación
+- Validaciones con FluentValidation
+
+#### Infrastructure
+
+Contiene:
+
+- Entity Framework Core
+- SQL Server
+- Repositorios
+- Almacenamiento de archivos
+- Procesamiento de PDFs
+- Workers en segundo plano
+- JWT
+
+#### API
+
+Contiene:
+
+- Controllers
+- Middlewares
+- Configuración de autenticación
+- Configuración de Swagger
+- Endpoints REST
 
 ---
 
-##  Tecnologías utilizadas
+## Frontend
 
-* **Framework:** .NET 10 / ASP.NET Core Web API
-* **Lenguaje:** C# 12
-* **Persistencia:** Entity Framework Core 8 y SQL Server
-* **Autenticación:** JWT Bearer Authentication y BCrypt.Net-Next
-* **Validación:** FluentValidation
-* **Procesamiento de PDFs:** PdfSharp
-* **Conversión de documentos:** SautinSoft.Document
+El frontend está desarrollado con Angular 21 utilizando Standalone Components.
+
+### Características
+
+- Angular 21
+- Angular Material
+- Standalone Components
+- Signals
+- Reactive Forms
+- Route Guards
+- HTTP Interceptors
+- Responsive Design
+
+### Estructura
+
+```text
+src/app
+│
+├── core
+│   ├── guards
+│   ├── interceptors
+│   ├── models
+│   └── services
+│
+├── features
+│   ├── auth
+│   ├── dashboard
+│   └── conversions
+│
+└── shared
+    └── components
+```
+
+---
+
+## Flujo de Conversión
+
+Todas las operaciones de procesamiento se ejecutan en segundo plano.
+
+### 1. El usuario envía un archivo
+
+```http
+POST /api/conversions/word-to-pdf
+```
+
+### 2. La API responde
+
+```json
+{
+  "jobId": "guid",
+  "status": "Pending",
+  "createdAt": "2026-06-25T20:00:00"
+}
+```
+
+### 3. El frontend inicia polling
+
+```http
+GET /api/conversions/status/{jobId}
+```
+
+cada 3 segundos.
+
+### 4. Cuando el estado cambia
+
+```json
+{
+  "jobId": "guid",
+  "status": "Completed"
+}
+```
+
+se habilita la descarga.
+
+### 5. Descarga
+
+```http
+GET /api/conversions/download/{jobId}
+```
 
 ---
 
 ## Funcionalidades
 
-### 1. Autenticación (`/api/auth`)
+### Autenticación
 
-* Registro de usuarios con validación mediante FluentValidation.
-* Inicio de sesión con generación de tokens JWT.
+- Registro de usuarios
+- Inicio de sesión
+- JWT Bearer Authentication
+- Auth Guard
+- Auth Interceptor
 
-### 2. Conversión Word a PDF (`/api/conversions/word-to-pdf`)
+### Word → PDF
 
-* Carga de archivos `.doc` y `.docx`.
-* Procesamiento en segundo plano y generación de PDF.
+- Soporte para .doc
+- Soporte para .docx
+- Conversión asíncrona
 
-### 3. Fusión de PDFs (`/api/conversions/pdf-merge`)
+### PDF Merge
 
-* Carga de múltiples archivos PDF mediante `List<IFormFile>`.
-* Combinación respetando el orden enviado por el cliente.
+- Múltiples archivos PDF
+- Conserva el orden enviado
 
-### 4. División de PDFs (`/api/conversions/pdf-split`)
+### PDF Split
 
-* Extracción de rangos específicos de páginas (`StartPage` a `EndPage`).
-* Generación de nuevos documentos a partir de las páginas seleccionadas.
+- División por rango de páginas
+- Validación de páginas
 
-### 5. Descarga de archivos (`/api/conversions/download/{jobId}`)
+### Descarga
 
-* Endpoint protegido para descargar el archivo procesado una vez que el trabajo se encuentra en estado `Completed`.
+- Descarga segura de resultados
+- Archivos protegidos por usuario
 
 ---
 
-## Instalación y configuración
+## Tecnologías Utilizadas
 
-### Prerrequisitos
+### Backend
 
-* .NET 10 SDK.
-* Una instancia de SQL Server (LocalDB, Docker o servidor dedicado).
+- .NET 10
+- ASP.NET Core Web API
+- Entity Framework Core
+- SQL Server
+- JWT Bearer Authentication
+- FluentValidation
+- BCrypt.Net
+- PdfSharp
+- SautinSoft.Document
 
-### 1. Clonar el repositorio
+### Frontend
+
+- Angular 21
+- Angular Material
+- TypeScript
+- RxJS
+- Angular Signals
+- SCSS
+
+---
+
+## Seguridad
+
+La autenticación se realiza mediante JWT.
+
+Después del login:
+
+```json
+{
+  "id": "guid",
+  "email": "user@email.com",
+  "token": "jwt-token"
+}
+```
+
+El token es almacenado en el cliente y enviado automáticamente mediante un HTTP Interceptor:
+
+```http
+Authorization: Bearer <token>
+```
+
+Todas las rutas de conversión requieren autenticación.
+
+---
+
+## Instalación
+
+### Backend
+
+#### Clonar repositorio
 
 ```bash
 git clone https://github.com/martincodesenicen/docconverter.git
 cd docconverter
 ```
 
-### 2. Configurar la conexión a la base de datos
-
-Editar `src/DocConverter.API/appsettings.json` y actualizar la cadena de conexión y la configuración JWT:
+#### Configurar appsettings.json
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=TU_SERVIDOR;Database=DocConverterDb;Trusted_Connection=True;TrustServerCertificate=True;"
+    "DefaultConnection": "Server=localhost;Database=DocConverterDb;Trusted_Connection=True;TrustServerCertificate=True;"
   },
   "JwtSettings": {
-    "Secret": "UnaClaveSuperSecretaYDeGranLongitudParaFirmarLosTokensJWT2026!",
+    "Secret": "YOUR_SECRET_KEY",
     "Issuer": "DocConverterAPI",
-    "Audience": "DocConverterClients"
+    "Audience": "DocConverterUsers"
   }
 }
 ```
 
-### 3. Aplicar las migraciones
+#### Ejecutar migraciones
 
 ```bash
-dotnet ef database update --project src/DocConverter.Infrastructure --startup-project src/DocConverter.API
+dotnet ef database update \
+--project src/DocConverter.Infrastructure \
+--startup-project src/DocConverter.API
 ```
 
-### 4. Ejecutar la aplicación
+#### Ejecutar API
 
 ```bash
 dotnet run --project src/DocConverter.API
 ```
 
-### 5. Abrir Swagger
-
-Una vez iniciada la API, acceder a:
+API:
 
 ```text
-http://localhost:5000/swagger
+http://localhost:5217
 ```
 
-O a la URL indicada en la consola.
+Swagger:
+
+```text
+http://localhost:5217/swagger
+```
+
+---
+
+### Frontend
+
+Entrar al proyecto Angular:
+
+```bash
+cd ..
+cd doc-converter-web
+```
+
+Instalar dependencias:
+
+```bash
+npm install
+```
+
+Configurar:
+
+```ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:5217/api'
+};
+```
+
+Ejecutar:
+
+```bash
+ng serve
+```
+
+Aplicación:
+
+```text
+http://localhost:4200
+```
+
+---
+
+## Capturas
+
+### Login
+
+Agregar screenshot aquí.
+
+### Dashboard
+
+Agregar screenshot aquí.
+
+### Word to PDF
+
+Agregar screenshot aquí.
+
+### PDF Merge
+
+Agregar screenshot aquí.
+
+### PDF Split
+
+Agregar screenshot aquí.
+
+---
+
+## Roadmap
+
+Posibles mejoras futuras:
+
+- Historial de conversiones.
+- Refresh Tokens.
+- Notificaciones en tiempo real con SignalR.
+- Procesamiento distribuido.
+- Docker Compose.
+- CI/CD con GitHub Actions.
+- Almacenamiento en Azure Blob Storage o AWS S3.
 
 ---
 
 ## Licencia
 
-Este proyecto es de código abierto bajo la licencia MIT. Siéntete libre de utilizarlo y modificarlo.
+Este proyecto se distribuye bajo la licencia MIT.
