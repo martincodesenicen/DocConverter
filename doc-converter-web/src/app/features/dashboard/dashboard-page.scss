@@ -4,7 +4,7 @@
 
   margin: auto;
 
-  padding: 50px 24px;
+  padding: 60px 24px;
 }
 
 .hero {
@@ -17,7 +17,9 @@
 
     font-size: 3rem;
 
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+
+    font-weight: 700;
   }
 
   p {
@@ -35,23 +37,40 @@
   gap: 24px;
 
   grid-template-columns:
-    repeat(auto-fit, minmax(300px, 1fr));
+    repeat(auto-fit, minmax(320px, 1fr));
 }
 
 .tool-card {
 
   cursor: pointer;
 
-  padding: 30px;
+  padding: 32px;
 
-  transition: .25s ease;
+  border-radius: 20px;
+
+  transition: all .25s ease;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
 }
 
 .tool-card:hover {
 
   transform:
-    translateY(-5px);
+    translateY(-8px);
 
   box-shadow:
-    0 12px 32px rgba(0,0,0,.12);
+    0 16px 40px rgba(0,0,0,.12);
+}
+
+.tool-icon {
+
+  font-size: 42px;
+
+  width: 42px;
+
+  height: 42px;
 }

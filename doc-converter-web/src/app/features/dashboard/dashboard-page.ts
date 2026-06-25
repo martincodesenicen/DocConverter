@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { MatCardModule } from '@angular/material/card';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
 selector: 'app-dashboard-page',
@@ -12,7 +13,8 @@ imports: [
 CommonModule,
 RouterLink,
 MatCardModule,
-NavbarComponent
+NavbarComponent,
+MatIconModule
 ],
 templateUrl: './dashboard-page.html',
 styleUrl: './dashboard-page.scss'
