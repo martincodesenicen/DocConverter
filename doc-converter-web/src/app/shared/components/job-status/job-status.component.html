@@ -1,27 +1,30 @@
 @if(loading) {
 
-  <div class="spinner">
+  <div class="status processing">
 
-    <mat-spinner diameter="40" />
+    <mat-spinner diameter="30" />
 
-  </div>
-
-}
-
-@if(status) {
-
-  <div class="status-container">
-
-    <p>
-      Status:
-      <strong>{{ status }}</strong>
-    </p>
+    <span>
+      Processing document...
+    </span>
 
   </div>
 
 }
 
 @if(status === 'Completed') {
+
+  <div class="status success">
+
+    <span class="material-icons">
+
+      check_circle
+
+    </span>
+
+    Conversion completed successfully
+
+  </div>
 
   <button
     mat-raised-button
@@ -36,7 +39,13 @@
 
 @if(status === 'Failed') {
 
-  <div class="error">
+  <div class="status failed">
+
+    <span class="material-icons">
+
+      error
+
+    </span>
 
     Conversion failed
 

@@ -1,28 +1,35 @@
-.spinner {
+.status {
 
   display: flex;
 
-  justify-content: center;
+  align-items: center;
 
-  margin-top: 20px;
-}
+  gap: 12px;
 
-.status-container {
-
-  padding: 14px;
+  padding: 16px;
 
   border-radius: 12px;
 
-  background: #f5f7fb;
+  margin-top: 20px;
 
-  margin-top: 16px;
+  font-weight: 500;
 }
 
-.error {
+.processing {
 
-  color: #c62828;
+  background: #eef4ff;
+}
 
-  font-weight: 600;
+.success {
 
-  margin-top: 12px;
+  background: #ecfdf3;
+
+  color: #027a48;
+}
+
+.failed {
+
+  background: #fef3f2;
+
+  color: #b42318;
 }
