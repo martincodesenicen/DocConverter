@@ -2,6 +2,34 @@
 
   <mat-card class="conversion-card">
 
+    <div class="top-actions">
+
+      <button
+        mat-button
+        routerLink="/dashboard">
+
+        <mat-icon>
+          arrow_back
+        </mat-icon>
+
+        Dashboard
+
+      </button>
+
+    </div>
+
+    <div class="breadcrumb">
+
+      Dashboard
+
+      <mat-icon>
+        chevron_right
+      </mat-icon>
+
+      {{ title }}
+
+    </div>
+
     <div class="header">
 
       <h1>
@@ -14,7 +42,7 @@
 
     </div>
 
-    <ng-content></ng-content>
+    <ng-content />
 
   </mat-card>
 
