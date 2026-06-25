@@ -1,12 +1,40 @@
-@if(loading) {
+@if(status === 'Pending') {
 
-  <div class="status processing">
+  <div class="job-state pending">
 
-    <mat-spinner diameter="30" />
-
-    <span>
-      Processing document...
+    <span class="material-icons">
+      schedule
     </span>
+
+    <div>
+
+      <strong>Pending</strong>
+
+      <p>
+        Waiting to be processed.
+      </p>
+
+    </div>
+
+  </div>
+
+}
+
+@if(status === 'Processing') {
+
+  <div class="job-state processing">
+
+    <mat-spinner diameter="26" />
+
+    <div>
+
+      <strong>Processing</strong>
+
+      <p>
+        Your document is being processed.
+      </p>
+
+    </div>
 
   </div>
 
@@ -14,15 +42,21 @@
 
 @if(status === 'Completed') {
 
-  <div class="status success">
+  <div class="job-state completed">
 
     <span class="material-icons">
-
       check_circle
-
     </span>
 
-    Conversion completed successfully
+    <div>
+
+      <strong>Completed</strong>
+
+      <p>
+        Your file is ready to download.
+      </p>
+
+    </div>
 
   </div>
 
@@ -39,15 +73,21 @@
 
 @if(status === 'Failed') {
 
-  <div class="status failed">
+  <div class="job-state failed">
 
     <span class="material-icons">
-
       error
-
     </span>
 
-    Conversion failed
+    <div>
+
+      <strong>Failed</strong>
+
+      <p>
+        The conversion process failed.
+      </p>
+
+    </div>
 
   </div>
 

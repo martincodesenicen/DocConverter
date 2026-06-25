@@ -1,41 +1,38 @@
 import { Injectable } from '@angular/core';
 
 import {
-interval,
-switchMap,
-takeWhile
+  timer,
+  switchMap,
+  takeWhile
 } from 'rxjs';
 
 import { ConversionService } from './conversion.service';
 
 @Injectable({
-providedIn: 'root'
+  providedIn: 'root'
 })
 export class PollingService {
 
-constructor(
-private conversionService: ConversionService
-) {}
+  constructor(
+    private conversionService: ConversionService
+  ) {}
 
-pollJob(
-jobId: string
-) {
+  pollJob(
+    jobId: string
+  ) {
 
+    return timer(0, 3000).pipe(
 
-return interval(3000).pipe(
+      switchMap(() =>
+        this.conversionService.getStatus(jobId)
+      ),
 
-  switchMap(() =>
-    this.conversionService.getStatus(jobId)
-  ),
-
-  takeWhile(
-    response =>
-      response.status !== 'Completed' &&
-      response.status !== 'Failed',
-    true
-  )
-);
-
-
-}
+      takeWhile(
+        response =>
+          response.status !== 'Completed' &&
+          response.status !== 'Failed',
+        true
+      )
+    );
+  }
 }
