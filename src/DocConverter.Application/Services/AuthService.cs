@@ -44,7 +44,7 @@ public class AuthService : IAuthService
         var emailExists = await _users.ExistsByEmailAsync(request.Email);
         if (emailExists)
         {
-            throw new BadRequestException("The email is already registered."); 
+            throw new BadRequestException("El email ya está registrado."); 
         }
 
         // 2. Crear la entidad e inyectar el Hash seguro
@@ -77,7 +77,7 @@ public class AuthService : IAuthService
         var user = await _users.GetByEmailAsync(request.Email);
         if (user == null || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
         {
-            throw new UnauthorizedException("Invalid email or password.");
+            throw new UnauthorizedException("Email o contraseña inválidos.");
         }
 
         // Generar Token y responder

@@ -29,8 +29,8 @@ export class PollingService {
 
       takeWhile(
         response =>
-          response.status !== 'Completed' &&
-          response.status !== 'Failed',
+          response.status !== 'Completado' &&
+          response.status !== 'Fallido',
         true
       )
     );

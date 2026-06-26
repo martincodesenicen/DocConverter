@@ -1,4 +1,4 @@
-@if(status === 'Pending') {
+@if(status === 'Pendiente') {
 
   <div class="job-state pending">
 
@@ -8,10 +8,10 @@
 
     <div>
 
-      <strong>Pending</strong>
+      <strong>Pendiente</strong>
 
       <p>
-        Waiting to be processed.
+        Esperando ser procesado.
       </p>
 
     </div>
@@ -20,7 +20,7 @@
 
 }
 
-@if(status === 'Processing') {
+@if(status === 'Procesando') {
 
   <div class="job-state processing">
 
@@ -28,10 +28,10 @@
 
     <div>
 
-      <strong>Processing</strong>
+      <strong>Procesando</strong>
 
       <p>
-        Your document is being processed.
+        Tu documento está siendo procesado.
       </p>
 
     </div>
@@ -40,7 +40,7 @@
 
 }
 
-@if(status === 'Completed') {
+@if(status === 'Completado') {
 
   <div class="job-state completed">
 
@@ -50,10 +50,10 @@
 
     <div>
 
-      <strong>Completed</strong>
+      <strong>Completado</strong>
 
       <p>
-        Your file is ready to download.
+        Tu archivo está listo para descargar.
       </p>
 
     </div>
@@ -65,13 +65,13 @@
     color="primary"
     (click)="download()">
 
-    Download Result
+    Descargar Resultado
 
   </button>
 
 }
 
-@if(status === 'Failed') {
+@if(status === 'Fallido') {
 
   <div class="job-state failed">
 
@@ -81,10 +81,10 @@
 
     <div>
 
-      <strong>Failed</strong>
+      <strong>Fallido</strong>
 
       <p>
-        The conversion process failed.
+        El proceso de conversión falló.
       </p>
 
     </div>

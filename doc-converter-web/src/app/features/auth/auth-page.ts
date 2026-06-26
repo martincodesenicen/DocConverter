@@ -78,7 +78,7 @@ export class AuthPage {
           this.loading.set(false);
 
           this.notification.success(
-            'Login successful'
+            'Inicio de sesión exitoso.'
           );
 
           this.router.navigate(['/dashboard']);
@@ -89,7 +89,7 @@ export class AuthPage {
 
           this.notification.error(
             error?.error?.message ??
-            'Login failed'
+            'Inicio de sesión fallido.'
           );
         }
       });
@@ -109,6 +109,9 @@ export class AuthPage {
       .subscribe({
         next: () => {
           this.loading.set(false);
+          this.notification.success(
+            'Registro exitoso.'
+          );
         },
 
         error: (error) => {

@@ -16,7 +16,7 @@ export class NotificationService {
 
     this.snackBar.open(
       message,
-      'Close',
+      'Cerrar',
       {
         duration: 3000
       }
@@ -27,7 +27,7 @@ export class NotificationService {
 
     this.snackBar.open(
       message,
-      'Close',
+      'Cerrar',
       {
         duration: 5000
       }

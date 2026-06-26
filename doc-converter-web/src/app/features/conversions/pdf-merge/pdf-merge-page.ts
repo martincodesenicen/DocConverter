@@ -91,7 +91,7 @@ export class PdfMergePage {
     ) {
 
       this.notification.error(
-        'Select at least 2 PDF files.'
+        'Selecciona al menos dos archivos PDF para combinar.'
       );
 
       return;
@@ -108,7 +108,7 @@ export class PdfMergePage {
     if (invalidFile) {
 
       this.notification.error(
-        'Only PDF files are allowed.'
+        'Solo se permiten archivos PDF.'
       );
 
       return;
@@ -153,8 +153,8 @@ export class PdfMergePage {
         );
 
         if (
-          response.status === 'Completed' ||
-          response.status === 'Failed'
+          response.status === 'Completado' ||
+          response.status === 'Fallido'
         ) {
           this.loading.set(false);
         }

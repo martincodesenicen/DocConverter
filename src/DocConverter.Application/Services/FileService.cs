@@ -24,7 +24,7 @@ public class FileService : IFileService
     {
         // 1. Obtener el ID del usuario del contexto seguro
         var userId = _currentUserService.UserId 
-            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+            ?? throw new UnauthorizedAccessException("Usuario no autenticado.");
 
         // 2. Guardar el archivo físico en disco
         var storagePath = await _storageService.SaveFileAsync(fileStream, fileName);

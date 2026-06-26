@@ -87,7 +87,7 @@ public class ConversionService : IConversionService
     public async Task<FileDownloadResponse?> DownloadResultFileAsync(Guid jobId)
     {
         var userId = _currentUser.UserId 
-            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+            ?? throw new UnauthorizedAccessException("Usuario no autenticado.");
 
         // Buscamos el Job incluyendo la metadata del archivo resultado
         var job = await _jobs.GetJobWithResultFileAsync(jobId, userId);
@@ -95,7 +95,7 @@ public class ConversionService : IConversionService
         // Validaciones de negocio orientadas a producción
         if (job == null)
         {
-            throw new NotFoundException("Conversion job not found.");
+            throw new NotFoundException("Trabajo de conversión no encontrado.");
         }
         if (job.Status == JobStatus.Failed)
         {
@@ -119,7 +119,7 @@ public class ConversionService : IConversionService
     public async Task<JobResponse> StartPdfMergeAsync(List<(Stream FileStream, string FileName)> files)
     {
         var userId = _currentUser.UserId
-            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+            ?? throw new UnauthorizedAccessException("Usuario no autenticado.");
 
         if (files == null || files.Count < 2)
             throw new BadRequestException("Se necesitan al menos 2 archivos PDF.");
@@ -166,7 +166,7 @@ public class ConversionService : IConversionService
         SplitRequest request)
     {
         var userId = _currentUser.UserId
-            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+            ?? throw new UnauthorizedAccessException("Usuario no autenticado.");
 
         var validationResult = await _splitValidator.ValidateAsync(request);
         if (!validationResult.IsValid)

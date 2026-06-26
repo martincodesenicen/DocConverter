@@ -109,7 +109,7 @@ export class PdfSplitPage {
 
     if (!file) {
       this.notification.error(
-        'Please select a PDF file.'
+        'Por favor, selecciona un archivo PDF.'
       );
 
       return;
@@ -121,7 +121,7 @@ export class PdfSplitPage {
         .endsWith('.pdf')
     ) {
       this.notification.error(
-        'Only PDF files are allowed.'
+        'Solo se permiten archivos PDF.'
       );
 
       return;
@@ -133,7 +133,7 @@ export class PdfSplitPage {
       this.form.markAllAsTouched();
 
       this.notification.error(
-        'Please enter valid page numbers.'
+        'Por favor, ingresa números de página válidos.'
       );
 
       return;
@@ -143,7 +143,7 @@ export class PdfSplitPage {
       startPage! > endPage!
     ) {
       this.notification.error(
-        'End page must be greater than start page.'
+        'La página de fin debe ser mayor que la página de inicio.'
       );
 
       return;
@@ -185,8 +185,8 @@ export class PdfSplitPage {
         );
 
         if (
-          response.status === 'Completed' ||
-          response.status === 'Failed'
+          response.status === 'Completado' ||
+          response.status === 'Fallido'
         ) {
           this.loading.set(false);
         }

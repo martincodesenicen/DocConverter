@@ -93,7 +93,7 @@ export class WordToPdfPage {
 
     if (!file) {
       this.notification.error(
-        'Please select a Word file.'
+        'Por favor, selecciona un archivo Word.'
       );
 
       return;
@@ -108,7 +108,7 @@ export class WordToPdfPage {
       !extension.endsWith('.docx')
     ) {
       this.notification.error(
-        'Only .doc and .docx files are allowed.'
+        'Solo se permiten archivos .doc y .docx.'
       );
 
       return;
@@ -146,8 +146,8 @@ export class WordToPdfPage {
         );
 
         if (
-          response.status === 'Completed' ||
-          response.status === 'Failed'
+          response.status === 'Completado' ||
+          response.status === 'Fallido'
         ) {
           this.loading.set(false);
         }
