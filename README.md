@@ -2,9 +2,9 @@
 
 <p align="center">
   <img
-    src="https://github.com/user-attachments/assets/73be5267-0768-4c46-a15f-892fb0dcf69d"
-    alt="Logo"
-    width="512"
+    src="https://github.com/user-attachments/assets/41fb7a54-dc2f-4888-8fa2-44ce8f5d35c6"
+    alt="Dashboard"
+    width="1024"
   />
 </p>
 
@@ -142,6 +142,14 @@ Todas las operaciones de procesamiento se ejecutan en segundo plano.
 POST /api/conversions/word-to-pdf
 ```
 
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/d49497c0-616f-4d0f-8821-0cb60f8f63ec"
+    alt="Captura_Upload"
+    width="1024"
+  />
+</p>
+
 ### 2. La API responde
 
 ```json
@@ -151,6 +159,13 @@ POST /api/conversions/word-to-pdf
   "createdAt": "2026-06-25T20:00:00"
 }
 ```
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/7ae93f4b-5712-45b5-b45d-48cdb2648322"
+    alt="Captura_Pendiente"
+    width="1024"
+  />
+</p>
 
 ### 3. El frontend inicia polling
 
@@ -159,6 +174,14 @@ GET /api/conversions/status/{jobId}
 ```
 
 cada 3 segundos.
+
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/b2f03a9e-a010-445c-91d1-286509db6c97"
+    alt="Captura_Pendiente"
+    width="1024"
+  />
+</p>
 
 ### 4. Cuando el estado cambia
 
@@ -170,6 +193,14 @@ cada 3 segundos.
 ```
 
 se habilita la descarga.
+
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/320ae8d9-39fa-4dbf-a5db-0cda6225e197"
+    alt="Captura_Completado"
+    width="1024"
+  />
+</p>
 
 ### 5. Descarga
 
@@ -357,23 +388,33 @@ http://localhost:4200
 
 ### Login
 
-Agregar screenshot aquí.
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/e0cc7779-d306-4699-8482-6c88b7545662"
+    alt="Captura_Login"
+    width="1024"
+  />
+</p>
 
-### Dashboard
+### PDF Merge / Combinar PDF
 
-Agregar screenshot aquí.
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/34453745-a8bf-4c72-a112-8664fb856916"
+    alt="Captura_MergePdf"
+    width="1024"
+  />
+</p>
 
-### Word to PDF
+### PDF Split / Dividir PDF
 
-Agregar screenshot aquí.
-
-### PDF Merge
-
-Agregar screenshot aquí.
-
-### PDF Split
-
-Agregar screenshot aquí.
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/4a0c0b91-acfa-48c7-9ce5-bbc7611aaf7d"
+    alt="Captura_SplitPdf"
+    width="1024"
+  />
+</p>
 
 ---
 
