@@ -29,13 +29,13 @@ export const errorInterceptor: HttpInterceptorFn = (
         case 400:
           notification.error(
             error.error?.message ??
-            'Invalid request'
+            'Request inválida'
           );
           break;
 
         case 401:
           notification.error(
-            'Session expired'
+            'Sesión expirada'
           );
 
           authService.logout();
@@ -46,19 +46,19 @@ export const errorInterceptor: HttpInterceptorFn = (
 
         case 404:
           notification.error(
-            'Resource not found'
+            'Recurso no encontrado'
           );
           break;
 
         case 500:
           notification.error(
-            'Server error'
+            'Error de servidor'
           );
           break;
 
         default:
           notification.error(
-            'Unexpected error'
+            'Error inesperado'
           );
       }
 

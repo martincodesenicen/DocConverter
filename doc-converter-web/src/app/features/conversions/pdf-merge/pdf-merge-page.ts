@@ -153,8 +153,8 @@ export class PdfMergePage {
         );
 
         if (
-          response.status === 'Completado' ||
-          response.status === 'Fallido'
+          response.status === 'Completed' ||
+          response.status === 'Failed'
         ) {
           this.loading.set(false);
         }

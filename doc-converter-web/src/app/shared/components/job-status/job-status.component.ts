@@ -13,13 +13,17 @@ from '@angular/material/progress-spinner';
 import { MatButtonModule }
 from '@angular/material/button';
 
+import { MatIconModule }
+from '@angular/material/icon';
+
 @Component({
   selector: 'app-job-status',
   standalone: true,
   imports: [
     CommonModule,
     MatProgressSpinnerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './job-status.component.html',
   styleUrl: './job-status.component.scss'

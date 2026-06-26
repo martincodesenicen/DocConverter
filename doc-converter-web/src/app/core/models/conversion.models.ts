@@ -1,8 +1,8 @@
 export type JobStatus =
-  | 'Pendiente'
-  | 'Procesando'
-  | 'Completado'
-  | 'Fallido';
+  | 'Pending'
+  | 'Processing'
+  | 'Completed'
+  | 'Failed';
 
 export interface JobResponse {
   jobId: string;

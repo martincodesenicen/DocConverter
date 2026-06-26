@@ -1,10 +1,8 @@
-@if(status === 'Pendiente') {
+@if(status === 'Pending') {
 
   <div class="job-state pending">
 
-    <span class="material-icons">
-      schedule
-    </span>
+    <mat-icon>schedule</mat-icon>
 
     <div>
 
@@ -20,11 +18,11 @@
 
 }
 
-@if(status === 'Procesando') {
+@if(status === 'Processing') {
 
   <div class="job-state processing">
 
-    <mat-spinner diameter="26" />
+    <mat-icon>settings</mat-icon>
 
     <div>
 
@@ -40,7 +38,7 @@
 
 }
 
-@if(status === 'Completado') {
+@if(status === 'Completed') {
 
   <div class="job-state completed">
 
@@ -71,7 +69,7 @@
 
 }
 
-@if(status === 'Fallido') {
+@if(status === 'Failed') {
 
   <div class="job-state failed">
 
