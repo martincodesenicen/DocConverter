@@ -29,30 +29,20 @@ La aplicación permite a los usuarios registrarse, autenticarse mediante JWT y e
 
 ## Demo Version
 
-### Frontend
-
-https://docconverter-mcs.netlify.app/
-
-### API
-
-https://docconverter-ke8q.onrender.com/swagger/index.html
+- Frontend: https://docconverter-mcs.netlify.app
+- API (Swagger): https://docconverter-ke8q.onrender.com/swagger/index.html
 
 ## Arquitectura General
 
 El proyecto está compuesto por un backend desarrollado con Clean Architecture y un frontend SPA desarrollado con Angular 21. Ambos proyectos se despliegan de forma independiente y se comunican mediante una API REST autenticada con JWT.
 
-```text
-DocConverter
-│
-├── src/
-│   ├── DocConverter.API
-│   ├── DocConverter.Application
-│   ├── DocConverter.Domain
-│   └── DocConverter.Infrastructure
-│
-└── doc-converter-web/
-    └── Angular 21
-```
+| Capa | Responsabilidad |
+|------|-----------------|
+| API | Endpoints REST |
+| Application | Casos de uso |
+| Domain | Entidades y reglas de negocio |
+| Infrastructure | Persistencia, autenticación, almacenamiento y procesamiento |
+| Angular | Interfaz de usuario |
 
 
 
@@ -307,6 +297,14 @@ Authorization: Bearer <token>
 Todas las rutas de conversión requieren autenticación.
 
 
+## Requisitos
+
+- .NET SDK 10
+- Node.js 22 o superior
+- Angular CLI 21
+- PostgreSQL (o una base de datos Neon)
+- Git
+
 ## Instalación
 
 ### Backend
@@ -334,6 +332,8 @@ cd docconverter
 ```
 
 #### Ejecutar migraciones
+
+Crear una base de datos PostgreSQL (local o en Neon) y configurar la cadena de conexión en appsettings.json.
 
 ```bash
 dotnet ef database update \
@@ -366,7 +366,6 @@ http://localhost:XXXX/swagger
 Entrar al proyecto Angular:
 
 ```bash
-cd ..
 cd doc-converter-web
 ```
 
@@ -381,7 +380,7 @@ Configurar:
 ```ts
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:XXXX/api'
+  apiUrl: 'http://localhost:5217/api'
 };
 ```
 
@@ -439,7 +438,7 @@ La aplicación se encuentra desplegada utilizando servicios gratuitos:
 ### Backend
 
 - Render (Docker)
-- PostgreSQL en Neon
+- PostgreSQL alojado en Neon
 
 ### Frontend
 
@@ -450,7 +449,7 @@ La comunicación entre frontend y backend se realiza mediante una API REST prote
 
 ## Docker
 
-El backend incluye un Dockerfile para facilitar el despliegue en cualquier proveedor compatible con contenedores.
+El backend incluye un Dockerfile listo para desplegar la API en cualquier proveedor compatible con contenedores (Render, Railway, Azure, etc.).
 
 ## Roadmap
 
