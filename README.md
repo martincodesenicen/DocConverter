@@ -10,7 +10,16 @@
 
 DocConverter es una plataforma web para la conversión y procesamiento de documentos desarrollada con ASP.NET Core y Angular.
 
+## Características principales
+
+
 La aplicación permite a los usuarios registrarse, autenticarse mediante JWT y ejecutar tareas de procesamiento de documentos, incluyendo:
+
+- Autenticación mediante JWT.
+- Arquitectura Clean Architecture + DDD.
+- Procesamiento asíncrono mediante Background Services.
+- Frontend SPA desarrollado con Angular 21.
+- Despliegue en Render, Netlify y Neon.
 
 - Conversión de Word a PDF (word-to-pdf).
 - Unión de múltiples archivos PDF (merge-pdf).
@@ -18,11 +27,19 @@ La aplicación permite a los usuarios registrarse, autenticarse mediante JWT y e
 - Descarga de archivos procesados.
 - Seguimiento del estado de las conversiones mediante polling.
 
----
+## Demo Version
+
+### Frontend
+
+https://flourishing-faloodeh-102acf.netlify.app/
+
+### API
+
+https://docconverter-ke8q.onrender.com/swagger/index.html
 
 ## Arquitectura General
 
-El proyecto está dividido en dos aplicaciones independientes (ya que primero desarrollé el backend y luego el frontend):
+El proyecto está compuesto por un backend desarrollado con Clean Architecture y un frontend SPA desarrollado con Angular 21. Ambos proyectos se despliegan de forma independiente y se comunican mediante una API REST autenticada con JWT.
 
 ```text
 DocConverter
@@ -37,7 +54,7 @@ DocConverter
     └── Angular 21
 ```
 
----
+
 
 ## Backend
 
@@ -76,7 +93,8 @@ Contiene:
 Contiene:
 
 - Entity Framework Core
-- SQL Server
+- PostgreSQL (Neon)
+- Neon Database
 - Repositorios
 - Almacenamiento de archivos
 - Procesamiento de PDFs
@@ -93,7 +111,7 @@ Contiene:
 - Configuración de Swagger
 - Endpoints REST
 
----
+
 
 ## Frontend
 
@@ -130,7 +148,6 @@ src/app
     └── components
 ```
 
----
 
 ## Flujo de Conversión
 
@@ -208,7 +225,6 @@ se habilita la descarga.
 GET /api/conversions/download/{jobId}
 ```
 
----
 
 ## Funcionalidades
 
@@ -241,7 +257,6 @@ GET /api/conversions/download/{jobId}
 - Descarga segura de resultados
 - Archivos protegidos por usuario
 
----
 
 ## Tecnologías Utilizadas
 
@@ -250,12 +265,14 @@ GET /api/conversions/download/{jobId}
 - .NET 10
 - ASP.NET Core Web API
 - Entity Framework Core
-- SQL Server
+- PostgreSQL
+- Neon Database
 - JWT Bearer Authentication
 - FluentValidation
 - BCrypt.Net
 - PdfSharp
 - SautinSoft.Document
+- Background Services
 
 ### Frontend
 
@@ -266,7 +283,6 @@ GET /api/conversions/download/{jobId}
 - Angular Signals
 - SCSS
 
----
 
 ## Seguridad
 
@@ -290,7 +306,6 @@ Authorization: Bearer <token>
 
 Todas las rutas de conversión requieren autenticación.
 
----
 
 ## Instalación
 
@@ -308,10 +323,10 @@ cd docconverter
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=DocConverterDb;Trusted_Connection=True;TrustServerCertificate=True;"
+    "DefaultConnection": "<YOUR_CONNECTION_STRING>"
   },
   "JwtSettings": {
-    "Secret": "YOUR_SECRET_KEY",
+    "Secret": "<YOUR_SECRET>",
     "Issuer": "DocConverterAPI",
     "Audience": "DocConverterUsers"
   }
@@ -335,13 +350,13 @@ dotnet run --project src/DocConverter.API
 API:
 
 ```text
-http://localhost:5217
+http://localhost:XXXX
 ```
 
 Swagger:
 
 ```text
-http://localhost:5217/swagger
+http://localhost:XXXX/swagger
 ```
 
 ---
@@ -366,7 +381,7 @@ Configurar:
 ```ts
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5217/api'
+  apiUrl: 'http://localhost:XXXX/api'
 };
 ```
 
@@ -416,7 +431,26 @@ http://localhost:4200
   />
 </p>
 
----
+
+## Deployment
+
+La aplicación se encuentra desplegada utilizando servicios gratuitos:
+
+### Backend
+
+- Render (Docker)
+- PostgreSQL en Neon
+
+### Frontend
+
+- Netlify
+
+La comunicación entre frontend y backend se realiza mediante una API REST protegida con JWT.
+
+
+## Docker
+
+El backend incluye un Dockerfile para facilitar el despliegue en cualquier proveedor compatible con contenedores.
 
 ## Roadmap
 
@@ -426,11 +460,9 @@ Posibles mejoras futuras:
 - Refresh Tokens.
 - Notificaciones en tiempo real con SignalR.
 - Procesamiento distribuido.
-- Docker Compose.
 - CI/CD con GitHub Actions.
 - Almacenamiento en Azure Blob Storage o AWS S3.
 
----
 
 ## Licencia
 
