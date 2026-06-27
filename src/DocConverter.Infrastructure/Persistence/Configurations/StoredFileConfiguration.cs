@@ -25,7 +25,7 @@ public class StoredFileConfiguration : IEntityTypeConfiguration<StoredFile>
             .HasMaxLength(100);
 
         builder.Property(f => f.UploadedAt)
-            .HasDefaultValueSql("GETUTCDATE()");
+            .HasDefaultValueSql("NOW()");
 
         //  Un Usuario tiene muchos Archivos
         builder.HasOne(f => f.User)

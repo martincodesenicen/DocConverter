@@ -22,7 +22,7 @@ public class ConversionJobConfiguration : IEntityTypeConfiguration<ConversionJob
             .HasMaxLength(1000);
 
         builder.Property(j => j.CreatedAt)
-            .HasDefaultValueSql("GETUTCDATE()");
+            .HasDefaultValueSql("NOW()");
 
         builder.Property(j => j.SourceFileId)
             .IsRequired(false);
